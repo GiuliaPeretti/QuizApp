@@ -3,6 +3,7 @@ package com.example.quizapp.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -12,15 +13,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    background = ThemeColors.Night.background,
+    primary = ThemeColors.Night.primary,
+    secondary = ThemeColors.Night.secondary,
+    tertiary = ThemeColors.Night.tertiary,
+    onBackground = ThemeColors.Night.onBackgorund,
+    onPrimary = ThemeColors.Night.onPrimary
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    background = ThemeColors.Day.background,
+    primary = ThemeColors.Day.primary,
+    secondary = ThemeColors.Day.secondary,
+    tertiary = ThemeColors.Day.tertiary,
+    onBackground = ThemeColors.Night.onBackgorund,
+    onPrimary = ThemeColors.Night.onPrimary
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -55,4 +62,10 @@ fun QuizAppTheme(
         typography = Typography,
         content = content
     )
+}
+
+@Composable
+fun Theme(): ColorScheme {
+    val colorScheme = if(isSystemInDarkTheme()) DarkColorScheme else LightColorScheme
+    return colorScheme
 }
