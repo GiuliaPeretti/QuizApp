@@ -50,8 +50,9 @@ android {
 }
 
 dependencies {
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
+    implementation(libs.accompanist.systemuicontroller)
 
+    implementation(libs.opencsv)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

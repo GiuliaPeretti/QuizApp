@@ -1,6 +1,7 @@
 package com.example.quizapp
 
 import android.adservices.topics.Topic
+import android.content.Context
 import android.graphics.BlurMaskFilter
 import android.media.audiofx.AudioEffect.Descriptor
 import androidx.compose.foundation.Image
@@ -21,6 +22,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,8 +46,9 @@ import com.example.quizapp.ui.theme.ThemeColors
 @Composable
 fun TopicScreen(
     navController: NavHostController,
-    viewModel: QuizViewModel
-    ){
+    viewModel: QuizViewModel,
+    context: Context
+){
 
     val l = listOf("Topic0","Topic1","Topic2","Topic3","Topic4","Topic5","Topic6","Topic7","Topic8","Topic9","Topic10")
     val d = listOf("Description0","Description1","Description2","Description3","Description4","Description5","Description6","Description7","Description8","Description9","Description10")
@@ -57,7 +60,7 @@ fun TopicScreen(
             .background(Theme().background)
     ){
         for (i in l.indices) {
-            Topic(title = l[i], description = d[i], onAction = viewModel::onAction)
+            Topic(title = l[i], description = d[i], onAction = viewModel::onAction, context = context)
         }
     }
     NavigationBar(navController = navController)
@@ -71,6 +74,7 @@ fun Topic(
     title: String,
     description: String,
     onAction: (QuizAction) -> Unit,
+    context: Context
 ){
     //TODO: add shadow
     val l = listOf("Topic0","Topic1","Topic2","Topic3")
@@ -80,7 +84,7 @@ fun Topic(
             .padding(5.dp)
             .clip(RoundedCornerShape(15.dp))
             .background(Theme().background)
-            .clickable(onClick = { onAction(QuizAction.prova) })
+            .clickable(onClick = { onAction(QuizAction.Prova(conetxt = context)) })
     ) {
         Row(
             modifier = Modifier
