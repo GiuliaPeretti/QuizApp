@@ -23,6 +23,7 @@ fun NavigationBar(){
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .size(70.dp)
                 .background(Theme().primary),
             verticalAlignment = Alignment.Bottom
         ) {
@@ -30,7 +31,7 @@ fun NavigationBar(){
             Button(
                 onClick = { /*TODO*/ },
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .weight(1f)
             ) {
 
@@ -38,7 +39,7 @@ fun NavigationBar(){
             Button(
                 onClick = { /*TODO*/ },
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .weight(1f)
 
             ) {
@@ -47,7 +48,7 @@ fun NavigationBar(){
             Button(
                 onClick = { /*TODO*/ },
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .weight(1f)
 
             ) {
