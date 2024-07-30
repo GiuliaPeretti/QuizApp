@@ -43,8 +43,9 @@ import com.example.quizapp.ui.theme.ThemeColors
 
 @Composable
 fun TopicScreen(
-    navController: NavHostController
-){
+    navController: NavHostController,
+    viewModel: QuizViewModel
+    ){
 
     val l = listOf("Topic0","Topic1","Topic2","Topic3","Topic4","Topic5","Topic6","Topic7","Topic8","Topic9","Topic10")
     val d = listOf("Description0","Description1","Description2","Description3","Description4","Description5","Description6","Description7","Description8","Description9","Description10")
@@ -56,7 +57,7 @@ fun TopicScreen(
             .background(Theme().background)
     ){
         for (i in l.indices) {
-            Topic(title = l[i], description = d[i], navController= navController)
+            Topic(title = l[i], description = d[i], onAction = viewModel::onAction)
         }
     }
     NavigationBar(navController = navController)
@@ -69,7 +70,7 @@ fun TopicScreen(
 fun Topic(
     title: String,
     description: String,
-    navController: NavHostController
+    onAction: (QuizAction) -> Unit,
 ){
     //TODO: add shadow
     val l = listOf("Topic0","Topic1","Topic2","Topic3")
@@ -79,7 +80,7 @@ fun Topic(
             .padding(5.dp)
             .clip(RoundedCornerShape(15.dp))
             .background(Theme().background)
-            .clickable(onClick = { navController.navigate("question") })
+            .clickable(onClick = { onAction(QuizAction.prova) })
     ) {
         Row(
             modifier = Modifier

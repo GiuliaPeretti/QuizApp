@@ -19,6 +19,7 @@ import com.example.quizapp.ui.theme.Theme
 @Composable
 fun NavigationBar(
     navController: NavHostController
+
 ){
     Row(
         modifier = Modifier
@@ -54,7 +55,7 @@ fun NavigationBar(
 
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { /*TODO*/},
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(1f),

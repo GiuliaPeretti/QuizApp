@@ -32,7 +32,6 @@
     "Answer":  "RightAnswer",
     "Guesses":  ["RightAnswer","WrongAnswer0","WrongAnswer1", "WrongAnswer2"]
   },
-
   {
     "Topic": "Geography",
     "Question": "Question Geography 0",

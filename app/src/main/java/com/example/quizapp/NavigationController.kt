@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun NavigationController(){
     val navController = rememberNavController()
+    val viewModel = QuizViewModel()
     NavHost(navController = navController, startDestination = "home") {
         composable(
             route="home",
@@ -22,7 +23,10 @@ fun NavigationController(){
             route="topic",
             enterTransition = { fadeIn(animationSpec = spring(stiffness = Spring.StiffnessHigh)) },
             exitTransition = { fadeOut(animationSpec = spring(stiffness = Spring.StiffnessHigh)) }
-        ) { TopicScreen(navController = navController) }
+        ) { TopicScreen(
+            navController = navController,
+            viewModel = viewModel,
+            ) }
         composable(
             route="question",
             enterTransition = { fadeIn(animationSpec = spring(stiffness = Spring.StiffnessHigh)) },
