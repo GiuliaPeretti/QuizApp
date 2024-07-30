@@ -13,27 +13,37 @@ import java.security.AccessController.getContext
 class QuizViewModel: ViewModel() {
     fun onAction(action: QuizAction){
         when(action){
-            is QuizAction.Prova -> getTopics(context = action.conetxt)
+            is QuizAction.Selected -> startGame(topic = action.topic)
         }
     }
 
-    fun getTopics(context: Context): List<List<String>> {
-        val jsonObj = getData(context)
-        var topics = jsonObj.get("Topics").toString()
-        val topicsString:MutableList<JSONObject> = mutableListOf()
-        var s: String
-        while('{' in topics){
-            s = topics.substring(topics.indexOf('{'), topics.indexOf('}')+1)
-            topicsString.add(JSONObject(s))
-            topics=topics.substring(topics.indexOf('}')+1, topics.length)
+    private fun startGame(topic: String) {
+
+    }
+    private fun getQuestions(context: Context){
+        val jsonString = readCsvFromAssets(context, "questions.csv").toString()
+        //TODO: gestisci eccezione
+        var list = jsonString.split('\n')
+        val questionsList: MutableList<Question> = mutableListOf()
+        val l: MutableList<String> = mutableListOf()
+        for (i in questionsList){
+            l=i.split(',')
+            questionsList.add
         }
+        //TODO: finisci qua
+    }
+
+    fun getTopics(context: Context): List<List<String>> {
+        val jsonString = readCsvFromAssets(context, "topics.csv").toString()
+        //TODO: togli il toString e controlla eccezione
+        val topics = jsonString.split('\n')
         val titlesList: MutableList<String> = mutableListOf()
         val descriptionsList: MutableList<String> = mutableListOf()
-        var json: JSONObject
-        for (i in topicsString){
-            json= i
-            titlesList.add(json.get("Title").toString())
-            descriptionsList.add(json.get("Description").toString())
+        var l: List<String>
+        for (i in topics){
+            l=i.split(',')
+            titlesList.add(l[0])
+            descriptionsList.add(l[1])
         }
         val topicList = listOf(titlesList.toList(), descriptionsList.toList())
         return topicList

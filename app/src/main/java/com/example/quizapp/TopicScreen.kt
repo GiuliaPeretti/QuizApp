@@ -48,6 +48,7 @@ fun TopicScreen(
     navController: NavHostController,
     viewModel: QuizViewModel,
     context: Context,
+    onAction: (QuizAction) -> Unit,
     topicList: List<List<String>>
 ){
 
@@ -63,7 +64,11 @@ fun TopicScreen(
         val titles=topicList[0]
         val descriptions=topicList[1]
         for (i in titles.indices) {
-            Topic(title = titles[i], description = descriptions[i], onAction = viewModel::onAction, context = context)
+            Topic(
+                title = titles[i],
+                description = descriptions[i],
+                onClick = {onAction(QuizAction.Selected(topic = titles[i]))}
+            )
         }
     }
     NavigationBar(navController = navController)
@@ -76,8 +81,7 @@ fun TopicScreen(
 fun Topic(
     title: String,
     description: String,
-    onAction: (QuizAction) -> Unit,
-    context: Context
+    onClick: () -> Unit
 ){
     //TODO: add shadow
     val l = listOf("Topic0","Topic1","Topic2","Topic3")
@@ -87,7 +91,7 @@ fun Topic(
             .padding(5.dp)
             .clip(RoundedCornerShape(15.dp))
             .background(Theme().background)
-            .clickable(onClick = { onAction(QuizAction.Prova(conetxt = context)) })
+            .clickable(onClick = onClick)
     ) {
         Row(
             modifier = Modifier
