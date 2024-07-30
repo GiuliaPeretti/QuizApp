@@ -13,7 +13,7 @@ import kotlin.contracts.contract
 
 @Composable
 fun NavigationController(
-    context: Context
+    context: Context,
 ){
     val navController = rememberNavController()
     val viewModel = QuizViewModel()
@@ -30,7 +30,8 @@ fun NavigationController(
         ) { TopicScreen(
             navController = navController,
             viewModel = viewModel,
-            context = context
+            context = context,
+            topicTitles=viewModel.getTopics(context)
             ) }
         composable(
             route="question",

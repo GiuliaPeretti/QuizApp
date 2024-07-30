@@ -13,24 +13,22 @@ import java.security.AccessController.getContext
 class QuizViewModel: ViewModel() {
     fun onAction(action: QuizAction){
         when(action){
-            is QuizAction.Prova -> getQuestion(context = action.conetxt)
+            is QuizAction.Prova -> getTopics(context = action.conetxt)
         }
     }
 
+    fun getTopics(context: Context): List<String> {
+        val jsonObj = getData(context)
+        val l = jsonObj.get("Topics").toString()
+        val topicList = l.substring(1,l.length-1).split(',')
+        Log.d("deb", topicList.toString())
+        return topicList
+    }
 
-
-    fun getQuestion(context: Context){
-        val csvString = readCsvFromAssets(context, "your_file.csv")
-        Log.d("deb", csvString.toString())
-//        if (csvString != null) {
-//            val lines = csvString.split("\n")
-//            for (line in lines) {
-//                val values = line.split(",") // Use appropriate separator
-//                for (value in values) {
-//                    // Processeach value (string)
-//                }
-//            }
-//        }
+    fun getData(context: Context): JSONObject {
+        val jsonString = readCsvFromAssets(context, "data.json")
+        val jsonObj = JSONObject(jsonString.toString())
+        return jsonObj
     }
 
     fun readCsvFromAssets(context: Context, fileName: String): String? {return try {
@@ -40,5 +38,6 @@ class QuizViewModel: ViewModel() {
         null
     }
     }
+
 
 }

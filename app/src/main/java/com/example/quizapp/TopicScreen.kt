@@ -47,7 +47,8 @@ import com.example.quizapp.ui.theme.ThemeColors
 fun TopicScreen(
     navController: NavHostController,
     viewModel: QuizViewModel,
-    context: Context
+    context: Context,
+    topicTitles: List<String>
 ){
 
     val l = listOf("Topic0","Topic1","Topic2","Topic3","Topic4","Topic5","Topic6","Topic7","Topic8","Topic9","Topic10")
@@ -59,8 +60,8 @@ fun TopicScreen(
             .padding(bottom = 70.dp)
             .background(Theme().background)
     ){
-        for (i in l.indices) {
-            Topic(title = l[i], description = d[i], onAction = viewModel::onAction, context = context)
+        for (i in topicTitles.indices) {
+            Topic(title = topicTitles[i], description = d[i], onAction = viewModel::onAction, context = context)
         }
     }
     NavigationBar(navController = navController)
