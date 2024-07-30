@@ -3,9 +3,11 @@ package com.example.quizapp
 import android.media.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,23 +28,33 @@ import com.example.quizapp.ui.theme.Theme
     @Composable
     fun QuestionScreen(
     ){
-        Column (modifier = Modifier
-            .padding(horizontal = 10.dp)
-            .fillMaxSize(),
+            Row(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                NavigationBar()
+            }
 
-            verticalArrangement = Arrangement.Center
-            //.background(Android_calculatorTheme().background)
-            //.align(Alignment.Center)
-        ){
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 10.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ) {
             Row() {
                 Text(
                     text = "Which is the capital of England?",
                     fontSize = 30.sp
                 )
             }
-            Column(modifier = Modifier
-                .padding(vertical = 30.dp)
-                .fillMaxWidth(),
+            Column(
+                modifier = Modifier
+                    .padding(vertical = 30.dp)
+                    .fillMaxWidth(),
             ) {
                 for (i in 0 until 4) {
                     Button(
@@ -55,15 +67,8 @@ import com.example.quizapp.ui.theme.Theme
                     }
                 }
             }
-
         }
-        Row(
-            modifier = Modifier
-                .align(Alignment.Bottom)
-                .background(Theme().background)
-                .fillMaxWidth(),
-        ){
 
-        }
+
 
     }
