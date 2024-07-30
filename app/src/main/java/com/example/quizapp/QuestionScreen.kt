@@ -28,14 +28,7 @@ import com.example.quizapp.ui.theme.Theme
     @Composable
     fun QuestionScreen(
     ){
-            Row(
-                modifier = Modifier
-                    .fillMaxSize(),
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                NavigationBar()
-            }
+        NavigationBar()
 
         Column(
             modifier = Modifier

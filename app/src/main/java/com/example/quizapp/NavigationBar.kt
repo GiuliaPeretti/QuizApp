@@ -16,34 +16,44 @@ import com.example.quizapp.ui.theme.Theme
 fun NavigationBar(){
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(Theme().primary),
-        verticalAlignment = Alignment.Bottom
-        ){
-
-        Button(onClick = { /*TODO*/ },
+            .fillMaxSize(),
+        verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
+                .background(Theme().primary),
+            verticalAlignment = Alignment.Bottom
         ) {
 
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
+
+            }
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+
+            ) {
+
+            }
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+
+            ) {
+
+            }
+
         }
-        Button(onClick = { /*TODO*/ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-
-        ) {
-
-        }
-        Button(onClick = { /*TODO*/ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-
-        ) {
-
-        }
-
     }
 }

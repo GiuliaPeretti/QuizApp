@@ -27,7 +27,7 @@ sealed class ThemeColors(
         onPrimary = Color(0xFFFFFFFF),
     )
     object Day : ThemeColors(
-        background = Color(0xFFf5edeb),
+        background = Color(0xFFFFFFFF),
         primary = Color(0xFF0a0396),
         secondary = Color(0xFFEFB8C8),
         tertiary = Color(0xFFed9fc9),
