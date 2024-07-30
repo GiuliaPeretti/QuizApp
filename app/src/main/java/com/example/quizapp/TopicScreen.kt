@@ -48,7 +48,7 @@ fun TopicScreen(
     navController: NavHostController,
     viewModel: QuizViewModel,
     context: Context,
-    topicTitles: List<String>
+    topicList: List<List<String>>
 ){
 
     val l = listOf("Topic0","Topic1","Topic2","Topic3","Topic4","Topic5","Topic6","Topic7","Topic8","Topic9","Topic10")
@@ -60,8 +60,10 @@ fun TopicScreen(
             .padding(bottom = 70.dp)
             .background(Theme().background)
     ){
-        for (i in topicTitles.indices) {
-            Topic(title = topicTitles[i], description = d[i], onAction = viewModel::onAction, context = context)
+        val titles=topicList[0]
+        val descriptions=topicList[1]
+        for (i in titles.indices) {
+            Topic(title = titles[i], description = descriptions[i], onAction = viewModel::onAction, context = context)
         }
     }
     NavigationBar(navController = navController)

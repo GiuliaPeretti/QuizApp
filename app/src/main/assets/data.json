@@ -1,10 +1,13 @@
-{"Topics": ["Geography", "History"],
+{"Topics": [
+  {"Title":  "Geography", "Description": "Questions about geography"},
+  {"Title":  "History", "Description": "Questions about history"}
+],
   "Questions":[
   {
     "Topic": "Geography",
     "Question": "Which is the capital of England",
     "Answer":  "London",
-    "Guesses":  ["London","Paris","Rome", "Irland"]
+    "Guesses":  ["London","Paris","Rome", "Ireland"]
   },
   {
     "Topic": "History",

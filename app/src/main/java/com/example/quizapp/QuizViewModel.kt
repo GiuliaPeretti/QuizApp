@@ -17,11 +17,25 @@ class QuizViewModel: ViewModel() {
         }
     }
 
-    fun getTopics(context: Context): List<String> {
+    fun getTopics(context: Context): List<List<String>> {
         val jsonObj = getData(context)
-        val l = jsonObj.get("Topics").toString()
-        val topicList = l.substring(1,l.length-1).split(',')
-        Log.d("deb", topicList.toString())
+        var topics = jsonObj.get("Topics").toString()
+        val topicsString:MutableList<JSONObject> = mutableListOf()
+        var s: String
+        while('{' in topics){
+            s = topics.substring(topics.indexOf('{'), topics.indexOf('}')+1)
+            topicsString.add(JSONObject(s))
+            topics=topics.substring(topics.indexOf('}')+1, topics.length)
+        }
+        val titlesList: MutableList<String> = mutableListOf()
+        val descriptionsList: MutableList<String> = mutableListOf()
+        var json: JSONObject
+        for (i in topicsString){
+            json= i
+            titlesList.add(json.get("Title").toString())
+            descriptionsList.add(json.get("Description").toString())
+        }
+        val topicList = listOf(titlesList.toList(), descriptionsList.toList())
         return topicList
     }
 

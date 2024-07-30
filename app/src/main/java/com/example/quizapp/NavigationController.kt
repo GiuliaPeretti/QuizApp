@@ -31,7 +31,7 @@ fun NavigationController(
             navController = navController,
             viewModel = viewModel,
             context = context,
-            topicTitles=viewModel.getTopics(context)
+            topicList=viewModel.getTopics(context)
             ) }
         composable(
             route="question",
