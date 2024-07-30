@@ -16,10 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 
-@Preview(showBackground = true)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navController: NavHostController
+) {
     Column(modifier = Modifier
         .fillMaxSize(),
         verticalArrangement = Arrangement.Center
@@ -42,4 +44,5 @@ fun HomeScreen() {
         }
 
     }
+    NavigationBar(navController = navController)
 }

@@ -20,15 +20,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.quizapp.ui.theme.Theme
 
 @OptIn(ExperimentalLayoutApi::class)
-@Preview(showBackground = true)
 
     @Composable
     fun QuestionScreen(
-    ){
-        NavigationBar()
+    navController: NavHostController
+){
+        NavigationBar(navController = navController)
 
         Column(
             modifier = Modifier

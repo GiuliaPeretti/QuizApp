@@ -6,6 +6,7 @@ import android.media.audiofx.AudioEffect.Descriptor
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
@@ -35,13 +36,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.quizapp.ui.theme.Theme
 import com.example.quizapp.ui.theme.ThemeColors
 
 
-@Preview
 @Composable
-fun TopicScreen(){
+fun TopicScreen(
+    navController: NavHostController
+){
 
     val l = listOf("Topic0","Topic1","Topic2","Topic3","Topic4","Topic5","Topic6","Topic7","Topic8","Topic9","Topic10")
     val d = listOf("Description0","Description1","Description2","Description3","Description4","Description5","Description6","Description7","Description8","Description9","Description10")
@@ -53,17 +56,21 @@ fun TopicScreen(){
             .background(Theme().background)
     ){
         for (i in l.indices) {
-            Topic(title = l[i], description = d[i])
+            Topic(title = l[i], description = d[i], navController= navController)
         }
     }
-    NavigationBar()
+    NavigationBar(navController = navController)
 }
 
 
 
 
 @Composable
-fun Topic(title: String, description: String){
+fun Topic(
+    title: String,
+    description: String,
+    navController: NavHostController
+){
     //TODO: add shadow
     val l = listOf("Topic0","Topic1","Topic2","Topic3")
     val d = listOf("Description0","Description1","Description2","Description3")
@@ -72,6 +79,7 @@ fun Topic(title: String, description: String){
             .padding(5.dp)
             .clip(RoundedCornerShape(15.dp))
             .background(Theme().background)
+            .clickable(onClick = { navController.navigate("question") })
     ) {
         Row(
             modifier = Modifier
