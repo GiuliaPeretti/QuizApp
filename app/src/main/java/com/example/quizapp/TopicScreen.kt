@@ -67,7 +67,7 @@ fun TopicScreen(
             Topic(
                 title = titles[i],
                 description = descriptions[i],
-                onClick = {onAction(QuizAction.Selected(topic = titles[i]))}
+                onClick = {onAction(QuizAction.Selected(topic = titles[i], context = context))}
             )
         }
     }

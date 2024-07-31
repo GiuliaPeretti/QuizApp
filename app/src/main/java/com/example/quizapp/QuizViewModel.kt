@@ -3,6 +3,9 @@ package com.example.quizapp
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
@@ -11,25 +14,42 @@ import java.security.AccessController.getContext
 
 
 class QuizViewModel: ViewModel() {
+
+    private val _state = MutableStateFlow(QuizState())
+    val state: StateFlow<QuizState> = _state.asStateFlow()
+
     fun onAction(action: QuizAction){
         when(action){
-            is QuizAction.Selected -> startGame(topic = action.topic)
+            is QuizAction.Selected -> startGame(topic = action.topic, context = action.context)
         }
     }
 
-    private fun startGame(topic: String) {
+    private fun startGame(topic: String, context: Context) {
+        val questionsList=getQuestions(context = context)
+        var currentQuestions: MutableList<Question> = mutableListOf()
+        for (i in questionsList){
+            //tieni solo se topic giusto
+        }
+
+
+
+        _state.value = _state.value.copy(
+            currentQuestions = questionsList
+        )
 
     }
-    private fun getQuestions(context: Context){
+    private fun getQuestions(context: Context): List<Question> {
         val jsonString = readCsvFromAssets(context, "questions.csv").toString()
         //TODO: gestisci eccezione
         var list = jsonString.split('\n')
         val questionsList: MutableList<Question> = mutableListOf()
-        val l: MutableList<String> = mutableListOf()
-        for (i in questionsList){
-            l=i.split(',')
-            questionsList.add
+        var l: List<String> = listOf()
+        for (i in list){
+            l = i.split(',')
+            questionsList.add(Question(topic = l[0], question =  l[1], rightAnswer =  l[2], ans =  l[3]))
+            Log.d("question",questionsList.last().toString())
         }
+        return questionsList.toList()
         //TODO: finisci qua
     }
 
