@@ -23,7 +23,16 @@ class QuizViewModel: ViewModel() {
     fun onAction(action: QuizAction){
         when(action){
             is QuizAction.Selected -> startGame(topic = action.topic, context = action.context, navController = action.navController)
+            is QuizAction.NewQuestion -> newQuestion(navController = action.navController)
         }
+    }
+
+    private fun newQuestion(navController: NavHostController) {
+        //TODO: fai che quando il conto è 10 fai altro
+        _state.value = _state.value.copy(
+            questionCount = _state.value.questionCount+1
+        )
+        navController.navigate("question")
     }
 
     fun getString(str: String): String{
@@ -46,9 +55,10 @@ class QuizViewModel: ViewModel() {
         _state.value = _state.value.copy(
             currentQuestions = currentQuestions
         )
-        for (i in currentQuestions){
-            Log.d("debQuestion", i.question)
-        }
+        _state.value = _state.value.copy(
+            questionCount = 0
+        )
+
 
         //displayQuestion(navController = navController)
         navController.navigate("question")
@@ -64,6 +74,13 @@ class QuizViewModel: ViewModel() {
 
     fun getAnswers(): List<String> {
         return (_state.value.currentQuestions[_state.value.questionCount].answers)
+    }
+
+    fun getQuestionCounter(): Int{
+        return (_state.value.questionCount)
+    }
+    fun getQuestionForGame(): Int{
+        return (_state.value.questionForGame)
     }
 
     private fun getQuestions(context: Context): List<Question> {

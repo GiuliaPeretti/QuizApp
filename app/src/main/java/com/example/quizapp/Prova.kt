@@ -1,5 +1,6 @@
 package com.example.quizapp
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -13,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -21,17 +24,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlin.reflect.KFunction1
 
-@OptIn(ExperimentalLayoutApi::class)
-
+@Preview
 @Composable
-fun QuestionScreen(
-    navController: NavHostController,
-    onAction: (QuizAction) -> Unit,
-    viewModel: QuizViewModel
+fun Prova(
 ){
-    NavigationBar(navController = navController)
     Column(
         modifier = Modifier
+            .background(Color.White)
             .padding(horizontal = 10.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -40,7 +39,7 @@ fun QuestionScreen(
     ) {
         Row() {
             Text(
-                text = viewModel.getQuesiton(),
+                text = "Question",
                 fontSize = 30.sp
             )
         }
@@ -49,14 +48,14 @@ fun QuestionScreen(
                 .padding(vertical = 30.dp)
                 .fillMaxWidth(),
         ) {
-            val l =viewModel.getAnswers().shuffled()
+            val l = listOf("1","2","3","4")
             for (i in l) {
                 Button(
                     modifier = Modifier
                         .padding(10.dp)
                         .height(70.dp)
                         .fillMaxWidth(),
-                    onClick = {onAction(QuizAction.NewQuestion(navController = navController))}) {
+                    onClick = {}) {
                     Text(text = i)
                 }
             }
@@ -68,12 +67,12 @@ fun QuestionScreen(
         horizontalArrangement = Arrangement.End
     ) {
         Text(
-            text = viewModel.getQuestionCounter().toString()+'/'+viewModel.getQuestionForGame(),
+            text = "0/10",
             modifier = Modifier
-                .padding(horizontal = 20.dp, vertical = 20.dp)
+                .padding(20.dp)
                 .align(Alignment.Top),
             fontSize = 30.sp,
-        )
+            )
     }
 
 
