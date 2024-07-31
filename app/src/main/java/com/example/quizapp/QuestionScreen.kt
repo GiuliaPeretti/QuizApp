@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
@@ -33,7 +34,6 @@ fun QuestionScreen(
     navController: NavHostController,
     onAction: (QuizAction) -> Unit,
     viewModel: QuizViewModel,
-    colorList: List<Color> = listOf(Theme().primary,Theme().primary,Theme().primary,Theme().primary)
 ){
     NavigationBar(navController = navController)
     Column(
@@ -55,7 +55,22 @@ fun QuestionScreen(
                 .padding(vertical = 30.dp)
                 .fillMaxWidth(),
         ) {
-            val l =viewModel.getAnswers().shuffled()
+            val l =viewModel.getAnswers()
+            val colorList: MutableList<Color>
+            if(viewModel.getAnswerSelected()==-1) {
+                colorList = mutableListOf(Theme().primary, Theme().primary, Theme().primary, Theme().primary)
+            } else{
+                val n=viewModel.getAnswerSelected()
+                val ans =viewModel.getRightAnswer()
+                if (l[n]==ans){
+                    colorList = mutableListOf(Theme().primary, Theme().primary, Theme().primary, Theme().primary)
+                    colorList[n]=Color.Green
+                } else {
+                    colorList = mutableListOf(Theme().primary, Theme().primary, Theme().primary, Theme().primary)
+                    colorList[n]=Color.Red
+                    colorList[l.indexOf(ans)]=Color.Green
+                }
+            }
             for (i in l.indices) {
                 Button(
                     modifier = Modifier
@@ -66,11 +81,29 @@ fun QuestionScreen(
                         containerColor = colorList[i], // Set the desired background color
                         contentColor = Color.White  // Set the desired text color
                     ),
-                    onClick = {onAction(QuizAction.NewQuestion(navController = navController))}) {
-                    Text(text = l[i])
+                    //onClick = {onAction(QuizAction.NewQuestion(navController = navController))}) {
+                    onClick = {viewModel.checkAnswer(navController = navController, n = i)}) {
+
+                Text(text = l[i])
                 }
             }
         }
+
+
+        Row(
+        ) {
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = Modifier
+                    .height(110.dp)
+                    .width(200.dp)
+                    .padding(vertical = 30.dp, horizontal = 10.dp)
+            ) {
+                Text(text = "Next")
+            }
+        }
+
+
     }
     Row(
         modifier = Modifier

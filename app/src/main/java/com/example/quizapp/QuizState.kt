@@ -9,7 +9,8 @@ data class QuizState(
     var currentQuestions: List<Question> = listOf(),
     var questionCount: Int = 0,
     var questionForGame: Int = 10,
-    var answerSelected: Int = -1
+    var answerSelected: Int = -1,
+    val correctAnswers: Int = 0
     /*TODO: se una categoria ha meno di 10 domande ci sono dei
         problemi perchè question count va dopo la lunghezza di currentquestions*/
     //var context: Context =

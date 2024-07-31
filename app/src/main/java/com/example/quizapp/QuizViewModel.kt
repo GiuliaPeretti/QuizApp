@@ -49,7 +49,7 @@ class QuizViewModel: ViewModel() {
         }
     }
 
-    private fun startGame(topic: String, context: Context,navController: NavHostController) {
+    fun startGame(topic: String, context: Context,navController: NavHostController) {
         val questionsList=getQuestions(context = context)
         var currentQuestions: MutableList<Question> = mutableListOf()
         for (i in questionsList){
@@ -64,6 +64,9 @@ class QuizViewModel: ViewModel() {
         )
         _state.value = _state.value.copy(
             questionCount = 0
+        )
+        _state.value = _state.value.copy(
+            correctAnswers = 0
         )
 
 
@@ -102,6 +105,31 @@ class QuizViewModel: ViewModel() {
 //        val colorScheme = if(isSystemInDarkTheme()) DarkColorScheme else LightColorScheme
 //        return colorScheme
 //    }
+
+    fun getAnswerSelected(): Int {
+        return _state.value.answerSelected
+    }
+
+    fun getRightAnswer(): String {
+        return _state.value.currentQuestions[_state.value.questionCount].rightAnswer
+    }
+
+    fun checkAnswer(navController: NavHostController, n: Int){
+        //TODO: controllaa punteggio
+        if (_state.value.answerSelected!=-1){
+            return
+        }
+        if (getAnswers()[n]==getRightAnswer()){
+            _state.value = _state.value.copy(
+                correctAnswers = _state.value.correctAnswers+1
+            )
+        }
+        _state.value = _state.value.copy(
+            answerSelected = n
+        )
+        navController.navigate("question")
+
+    }
 
     private fun getQuestions(context: Context): List<Question> {
         val jsonString = readCsvFromAssets(context, "questions.csv").toString()

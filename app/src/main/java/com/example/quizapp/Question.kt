@@ -10,7 +10,7 @@ class Question(topic: String, question: String, rightAnswer: String, ans: String
     var rightAnswer: String=rightAnswer
         get() = field
         set(value) { field = value }
-    var answers: List<String> = ans.substring(1,ans.length-1).split(';')
+    var answers: List<String> = ans.substring(1,ans.length-1).split(';').shuffled()
         get() = field
         set(value) { field = value }
 
