@@ -1,5 +1,6 @@
 package com.example.quizapp
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -9,13 +10,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.quizapp.ui.theme.Theme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +32,8 @@ import kotlin.reflect.KFunction1
 fun QuestionScreen(
     navController: NavHostController,
     onAction: (QuizAction) -> Unit,
-    viewModel: QuizViewModel
+    viewModel: QuizViewModel,
+    colorList: List<Color> = listOf(Theme().primary,Theme().primary,Theme().primary,Theme().primary)
 ){
     NavigationBar(navController = navController)
     Column(
@@ -50,14 +56,18 @@ fun QuestionScreen(
                 .fillMaxWidth(),
         ) {
             val l =viewModel.getAnswers().shuffled()
-            for (i in l) {
+            for (i in l.indices) {
                 Button(
                     modifier = Modifier
                         .padding(10.dp)
                         .height(70.dp)
                         .fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorList[i], // Set the desired background color
+                        contentColor = Color.White  // Set the desired text color
+                    ),
                     onClick = {onAction(QuizAction.NewQuestion(navController = navController))}) {
-                    Text(text = i)
+                    Text(text = l[i])
                 }
             }
         }
@@ -68,7 +78,7 @@ fun QuestionScreen(
         horizontalArrangement = Arrangement.End
     ) {
         Text(
-            text = viewModel.getQuestionCounter().toString()+'/'+viewModel.getQuestionForGame(),
+            text = (viewModel.getQuestionCounter()+1).toString()+'/'+viewModel.getQuestionForGame(),
             modifier = Modifier
                 .padding(horizontal = 20.dp, vertical = 20.dp)
                 .align(Alignment.Top),

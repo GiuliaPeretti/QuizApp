@@ -12,7 +12,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
+val DarkColorScheme = darkColorScheme(
     background = ThemeColors.Night.background,
     primary = ThemeColors.Night.primary,
     secondary = ThemeColors.Night.secondary,
@@ -21,7 +21,7 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = ThemeColors.Night.onPrimary
 )
 
-private val LightColorScheme = lightColorScheme(
+val LightColorScheme = lightColorScheme(
     background = ThemeColors.Day.background,
     primary = ThemeColors.Day.primary,
     secondary = ThemeColors.Day.secondary,

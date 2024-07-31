@@ -2,9 +2,16 @@ package com.example.quizapp
 
 import android.content.Context
 import android.util.Log
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.navOptions
+import com.example.quizapp.ui.theme.DarkColorScheme
+import com.example.quizapp.ui.theme.LightColorScheme
+import com.example.quizapp.ui.theme.Theme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -82,6 +89,19 @@ class QuizViewModel: ViewModel() {
     fun getQuestionForGame(): Int{
         return (_state.value.questionForGame)
     }
+
+
+//    fun getColorList(): List<Color> {
+//        if (_state.value.answerSelected==-1){
+//            return(listOf(getTheme().primary, getTheme().primary, getTheme().primary, getTheme().primary))
+//        }
+//    }
+    //TODO: prova a mettere questio nella classe topicScreem
+//
+//    fun getTheme(): ColorScheme {
+//        val colorScheme = if(isSystemInDarkTheme()) DarkColorScheme else LightColorScheme
+//        return colorScheme
+//    }
 
     private fun getQuestions(context: Context): List<Question> {
         val jsonString = readCsvFromAssets(context, "questions.csv").toString()
