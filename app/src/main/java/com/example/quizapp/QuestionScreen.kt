@@ -1,13 +1,9 @@
 package com.example.quizapp
 
-import android.media.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,14 +13,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.quizapp.ui.theme.Theme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlin.reflect.KFunction1
 
 @OptIn(ExperimentalLayoutApi::class)
 
@@ -32,11 +27,9 @@ import kotlinx.coroutines.flow.asStateFlow
 fun QuestionScreen(
     navController: NavHostController,
     onAction: (QuizAction) -> Unit,
-    getString: (QuizAction) -> Unit
+    viewModel: QuizViewModel
 ){
     NavigationBar(navController = navController)
-    val _state = MutableStateFlow(QuizState())
-    val state: StateFlow<QuizState> = _state.asStateFlow()
     Column(
         modifier = Modifier
             .padding(horizontal = 10.dp)
@@ -47,7 +40,7 @@ fun QuestionScreen(
     ) {
         Row() {
             Text(
-                text = onAction(QuizAction.GetQuestion),
+                text = viewModel.getQuesiton(),
                 fontSize = 30.sp
             )
         }
@@ -56,14 +49,15 @@ fun QuestionScreen(
                 .padding(vertical = 30.dp)
                 .fillMaxWidth(),
         ) {
-            for (i in 0 until 4) {
+            val l =viewModel.getAnswers().shuffled()
+            for (i in l) {
                 Button(
                     modifier = Modifier
                         .padding(10.dp)
                         .height(70.dp)
                         .fillMaxWidth(),
                     onClick = {/* TODO */ }) {
-                    Text(text = "Risposta$i")
+                    Text(text = i)
                 }
             }
         }

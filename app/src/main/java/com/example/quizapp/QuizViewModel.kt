@@ -23,7 +23,13 @@ class QuizViewModel: ViewModel() {
     fun onAction(action: QuizAction){
         when(action){
             is QuizAction.Selected -> startGame(topic = action.topic, context = action.context, navController = action.navController)
-            is QuizAction.GetQuestion -> getQuestion()
+        }
+    }
+
+    fun getString(str: String): String{
+        return when(str){
+            "Question" -> _state.value.currentQuestions[_state.value.questionCount].question
+            else -> "" //TODO: metti null, return type String? e poi gestisci l'eccezione
         }
     }
 
@@ -38,20 +44,26 @@ class QuizViewModel: ViewModel() {
         //disordino cosi poi le prendo in ordine e due partite dello stesso topic sono comunque diverse
         currentQuestions.shuffle()
         _state.value = _state.value.copy(
-            currentQuestions = questionsList
+            currentQuestions = currentQuestions
         )
-        _state.value = _state.value.copy(
-            questionCount = 0
-        )
+        for (i in currentQuestions){
+            Log.d("debQuestion", i.question)
+        }
+
         //displayQuestion(navController = navController)
+        navController.navigate("question")
     }
 
-    fun getQuestion(){
-        //navController.navigate("question")
-    }
+//    fun getQuestion(){
+//        //navController.navigate("question")
+//    }
 
     fun getQuesiton(): String {
         return (_state.value.currentQuestions[_state.value.questionCount].question)
+    }
+
+    fun getAnswers(): List<String> {
+        return (_state.value.currentQuestions[_state.value.questionCount].answers)
     }
 
     private fun getQuestions(context: Context): List<Question> {

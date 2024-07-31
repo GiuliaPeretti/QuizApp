@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import kotlin.contracts.contract
 
 @Composable
 fun NavigationController(
@@ -40,7 +39,8 @@ fun NavigationController(
             exitTransition = { fadeOut(animationSpec = spring(stiffness = Spring.StiffnessHigh)) }
         ) { QuestionScreen(
             navController = navController,
-            onAction = viewModel::onAction
+            onAction = viewModel::onAction,
+            viewModel = viewModel
             ) }
     }
 }
