@@ -90,14 +90,23 @@ fun QuestionScreen(
         }
 
 
-        Row(
-        ) {
+        Row {
+            val colorNext: Color
+            if(viewModel.getAnswerSelected()==-1){
+                colorNext = Theme().secondary
+            } else {
+                colorNext = Theme().primary
+            }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {onAction(QuizAction.NewQuestion(navController = navController))},
                 modifier = Modifier
                     .height(110.dp)
                     .width(200.dp)
-                    .padding(vertical = 30.dp, horizontal = 10.dp)
+                    .padding(vertical = 30.dp, horizontal = 10.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorNext, // Set the desired background color
+                    contentColor = Color.White  // Set the desired text color
+                ),
             ) {
                 Text(text = "Next")
             }

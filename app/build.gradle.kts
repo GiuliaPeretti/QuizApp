@@ -54,6 +54,8 @@ dependencies {
 
     implementation(libs.opencsv)
 
+    implementation(libs.kandy.lets.plot)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

@@ -10,8 +10,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-
-            NavigationController(context = this)
+            EndGame()
+            //NavigationController(context = this)
         }
     }
 }

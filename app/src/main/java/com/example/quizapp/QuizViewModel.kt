@@ -36,9 +36,18 @@ class QuizViewModel: ViewModel() {
 
     private fun newQuestion(navController: NavHostController) {
         //TODO: fai che quando il conto è 10 fai altro
+        if(getAnswerSelected()==-1){
+            return
+        }
         _state.value = _state.value.copy(
             questionCount = _state.value.questionCount+1
         )
+        _state.value = _state.value.copy(
+            answerSelected = -1
+        )
+        if (_state.value.questionCount==10){
+            //TODO: metti schermo di fine partita
+        }
         navController.navigate("question")
     }
 
@@ -130,6 +139,7 @@ class QuizViewModel: ViewModel() {
         navController.navigate("question")
 
     }
+
 
     private fun getQuestions(context: Context): List<Question> {
         val jsonString = readCsvFromAssets(context, "questions.csv").toString()
