@@ -3,6 +3,8 @@ package com.example.quizapp
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.navOptions
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,24 +22,38 @@ class QuizViewModel: ViewModel() {
 
     fun onAction(action: QuizAction){
         when(action){
-            is QuizAction.Selected -> startGame(topic = action.topic, context = action.context)
+            is QuizAction.Selected -> startGame(topic = action.topic, context = action.context, navController = action.navController)
+            is QuizAction.GetQuestion -> getQuestion()
         }
     }
 
-    private fun startGame(topic: String, context: Context) {
+    private fun startGame(topic: String, context: Context,navController: NavHostController) {
         val questionsList=getQuestions(context = context)
         var currentQuestions: MutableList<Question> = mutableListOf()
         for (i in questionsList){
-            //tieni solo se topic giusto
+            if(i.topic==topic){
+                currentQuestions.add(i)
+            }
         }
-
-
-
+        //disordino cosi poi le prendo in ordine e due partite dello stesso topic sono comunque diverse
+        currentQuestions.shuffle()
         _state.value = _state.value.copy(
             currentQuestions = questionsList
         )
-
+        _state.value = _state.value.copy(
+            questionCount = 0
+        )
+        //displayQuestion(navController = navController)
     }
+
+    fun getQuestion(){
+        //navController.navigate("question")
+    }
+
+    fun getQuesiton(): String {
+        return (_state.value.currentQuestions[_state.value.questionCount].question)
+    }
+
     private fun getQuestions(context: Context): List<Question> {
         val jsonString = readCsvFromAssets(context, "questions.csv").toString()
         //TODO: gestisci eccezione

@@ -32,12 +32,15 @@ fun NavigationController(
             viewModel = viewModel,
             context = context,
             topicList=viewModel.getTopics(context),
-            onAction = viewModel::onAction,
+            onAction = viewModel::onAction
             ) }
         composable(
             route="question",
             enterTransition = { fadeIn(animationSpec = spring(stiffness = Spring.StiffnessHigh)) },
             exitTransition = { fadeOut(animationSpec = spring(stiffness = Spring.StiffnessHigh)) }
-        ) { QuestionScreen(navController = navController) }
+        ) { QuestionScreen(
+            navController = navController,
+            onAction = viewModel::onAction
+            ) }
     }
 }

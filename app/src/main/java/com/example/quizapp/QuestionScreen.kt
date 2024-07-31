@@ -22,47 +22,53 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.quizapp.ui.theme.Theme
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 @OptIn(ExperimentalLayoutApi::class)
 
-    @Composable
-    fun QuestionScreen(
-    navController: NavHostController
+@Composable
+fun QuestionScreen(
+    navController: NavHostController,
+    onAction: (QuizAction) -> Unit,
+    getString: (QuizAction) -> Unit
 ){
-        NavigationBar(navController = navController)
+    NavigationBar(navController = navController)
+    val _state = MutableStateFlow(QuizState())
+    val state: StateFlow<QuizState> = _state.asStateFlow()
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 10.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
 
+    ) {
+        Row() {
+            Text(
+                text = onAction(QuizAction.GetQuestion),
+                fontSize = 30.sp
+            )
+        }
         Column(
             modifier = Modifier
-                .padding(horizontal = 10.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-
+                .padding(vertical = 30.dp)
+                .fillMaxWidth(),
         ) {
-            Row() {
-                Text(
-                    text = "Which is the capital of England?",
-                    fontSize = 30.sp
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .padding(vertical = 30.dp)
-                    .fillMaxWidth(),
-            ) {
-                for (i in 0 until 4) {
-                    Button(
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .height(70.dp)
-                            .fillMaxWidth(),
-                        onClick = {/* TODO */ }) {
-                        Text(text = "Risposta$i")
-                    }
+            for (i in 0 until 4) {
+                Button(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .height(70.dp)
+                        .fillMaxWidth(),
+                    onClick = {/* TODO */ }) {
+                    Text(text = "Risposta$i")
                 }
             }
         }
-
-
-
     }
+
+
+
+}
