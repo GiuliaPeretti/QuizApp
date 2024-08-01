@@ -31,6 +31,7 @@ class QuizViewModel: ViewModel() {
 
     fun onAction(action: QuizAction){
         when(action){
+            is QuizAction.StartGame
             is QuizAction.Selected -> startGame(topic = action.topic, context = action.context, navController = action.navController)
             is QuizAction.NewQuestion -> newQuestion(navController = action.navController)
             is QuizAction.Restart -> restart(context = action.context, navController = action.navController)

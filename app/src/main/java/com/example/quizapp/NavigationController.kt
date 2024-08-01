@@ -61,5 +61,13 @@ fun NavigationController(
             navController = navController,
 
             ) }
+        composable(
+            route="topicSelected",
+            enterTransition = { fadeIn(animationSpec = spring(stiffness = Spring.StiffnessHigh)) },
+            exitTransition = { fadeOut(animationSpec = spring(stiffness = Spring.StiffnessHigh)) }
+        ) { TopicSelectedScreen(
+            viewModel = viewModel,
+            navController = navController,
+            ) }
     }
 }
