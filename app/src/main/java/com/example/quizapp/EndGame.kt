@@ -165,7 +165,7 @@ data class LineChartData(
 )
 
 @Composable
-fun LineChart(pointsData: MutableList<Point>){
+fun LineChart(pointsData: List<Point>){
     val xAxisData = AxisData
         .Builder()
         .axisStepSize(50.dp)
@@ -186,11 +186,6 @@ fun LineChart(pointsData: MutableList<Point>){
         }.build()
 
 
-    if(pointsData.isEmpty()){
-        pointsData.toMutableList()
-        pointsData.add(Point(0f,0f))
-    }
-    pointsData.toList()
 
     val lineChartData = LineChartData(
         linePlotData = LinePlotData(

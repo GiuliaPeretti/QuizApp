@@ -39,6 +39,97 @@ class QuizViewModel: ViewModel() {
         }
     }
 
+
+    fun getAnswerSelected(): Int {
+        return _state.value.answerSelected
+    }
+
+    fun getRightAnswer(): String {
+        return _state.value.questionList[_state.value.questionCount].rightAnswer
+    }
+
+    fun getTopic(): String {
+        return(_state.value.topic)
+    }
+
+    fun getDescription(): String{
+        return _state.value.description
+    }
+
+    fun getQuesiton(): String {
+        return (_state.value.questionList[_state.value.questionCount].question)
+    }
+
+    fun getAnswers(): List<String> {
+        return (_state.value.questionList[_state.value.questionCount].answers)
+    }
+
+    fun getQuestionCounter(): Int{
+        return (_state.value.questionCount)
+    }
+
+    fun getQuestionForGame(): Int{
+        return (_state.value.questionForGame)
+    }
+
+    fun getCorrect(): Int{
+        return _state.value.correctAnswers
+    }
+
+    fun getPoints(topic: String = _state.value.topic, context: Context): List<Point> {
+        val gamesString = readCsvFromAssets(context, "games.csv").toString()
+        val gamesList = gamesString.split('\n')
+        val pointList: MutableList<Point> = mutableListOf()
+        var l: List<String> = listOf()
+        var count = 0
+        for (i in gamesList){
+            l = i.split(',')
+            if (l[0]==topic){
+                pointList.add(Point(x= count.toFloat(), y= l[1].toFloat()))
+                count += 1
+            }
+        }
+        if(pointList.isEmpty()){
+            pointList.add(Point(0f,0f))
+        }
+        return pointList.toList()
+    }
+
+
+    fun getQuestions(context: Context): List<Question>? {
+        val questionsString: String = readCsvFromAssets(context, "questions.csv").toString()
+        //TODO: gestisci eccezione
+        var list = questionsString.split('\n')
+        val questionsList: MutableList<Question> = mutableListOf()
+        var l: List<String> = listOf()
+        for (i in list){
+            l = i.split(',')
+            questionsList.add(Question(topic = l[0], question =  l[1], rightAnswer =  l[2], ans =  l[3]))
+        }
+        return questionsList.toList()
+    }
+
+    fun getTopics(context: Context): List<List<String>> {
+        val jsonString = readCsvFromAssets(context, "topics.csv").toString()
+        //TODO: togli il toString e controlla eccezione
+        val topics = jsonString.split('\n')
+        val titlesList: MutableList<String> = mutableListOf()
+        val descriptionsList: MutableList<String> = mutableListOf()
+        var l: List<String>
+        for (i in topics){
+            l=i.split(',')
+            titlesList.add(l[0])
+            descriptionsList.add(l[1])
+        }
+        val topicList = listOf(titlesList.toList(), descriptionsList.toList())
+        return topicList
+    }
+
+
+
+
+
+
     private fun setTopic(topic: String, description: String) {
         _state.value = _state.value.copy(
             topic = topic
@@ -98,31 +189,7 @@ class QuizViewModel: ViewModel() {
         navController.navigate("question")
     }
 
-    fun getTopic(): String {
-        return(_state.value.topic)
-    }
 
-    fun getDescription(): String{
-        return _state.value.description
-    }
-//    fun getQuestion(){
-//        //navController.navigate("question")
-//    }
-
-    fun getQuesiton(): String {
-        return (_state.value.questionList[_state.value.questionCount].question)
-    }
-
-    fun getAnswers(): List<String> {
-        return (_state.value.questionList[_state.value.questionCount].answers)
-    }
-
-    fun getQuestionCounter(): Int{
-        return (_state.value.questionCount)
-    }
-    fun getQuestionForGame(): Int{
-        return (_state.value.questionForGame)
-    }
 
 
 
@@ -138,13 +205,7 @@ class QuizViewModel: ViewModel() {
 //        return colorScheme
 //    }
 
-    fun getAnswerSelected(): Int {
-        return _state.value.answerSelected
-    }
 
-    fun getRightAnswer(): String {
-        return _state.value.questionList[_state.value.questionCount].rightAnswer
-    }
 
     fun checkAnswer(navController: NavHostController, n: Int){
         //TODO: controllaa punteggio
@@ -163,59 +224,9 @@ class QuizViewModel: ViewModel() {
 
     }
 
-    fun getPoints(topic: String = _state.value.questionList[0].topic, context: Context): MutableList<Point> {
-        val gamesString = readCsvFromAssets(context, "games.csv").toString()
-        val gamesList = gamesString.split('\n')
-        val pointList: MutableList<Point> = mutableListOf()
-        var l: List<String> = listOf()
-        var count = 0
-        for (i in gamesList){
-            l = i.split(',')
-            if (l[0]==topic){
-                pointList.add(Point(x= count.toFloat(), y= l[1].toFloat()))
-                count += 1
-            }
-        }
-        return pointList
-    }
 
 
-    fun getQuestions(context: Context): List<Question> {
-        val jsonString = readCsvFromAssets(context, "questions.csv").toString()
-        //TODO: gestisci eccezione
-        var list = jsonString.split('\n')
-        val questionsList: MutableList<Question> = mutableListOf()
-        var l: List<String> = listOf()
-        for (i in list){
-            l = i.split(',')
-            questionsList.add(Question(topic = l[0], question =  l[1], rightAnswer =  l[2], ans =  l[3]))
-            Log.d("question",questionsList.last().toString())
-        }
-        return questionsList.toList()
-        //TODO: finisci qua
-    }
 
-    fun getTopics(context: Context): List<List<String>> {
-        val jsonString = readCsvFromAssets(context, "topics.csv").toString()
-        //TODO: togli il toString e controlla eccezione
-        val topics = jsonString.split('\n')
-        val titlesList: MutableList<String> = mutableListOf()
-        val descriptionsList: MutableList<String> = mutableListOf()
-        var l: List<String>
-        for (i in topics){
-            l=i.split(',')
-            titlesList.add(l[0])
-            descriptionsList.add(l[1])
-        }
-        val topicList = listOf(titlesList.toList(), descriptionsList.toList())
-        return topicList
-    }
-
-    fun getData(context: Context): JSONObject {
-        val jsonString = readCsvFromAssets(context, "data.json")
-        val jsonObj = JSONObject(jsonString.toString())
-        return jsonObj
-    }
 
     fun readCsvFromAssets(context: Context, fileName: String): String? {return try {
         context.assets.open(fileName).bufferedReader().use { it.readText() }
@@ -225,9 +236,7 @@ class QuizViewModel: ViewModel() {
     }
     }
 
-    fun getCorrect(): Int{
-        return _state.value.correctAnswers
-    }
+
 
 
 }
