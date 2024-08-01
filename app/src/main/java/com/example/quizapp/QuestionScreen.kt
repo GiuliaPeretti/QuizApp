@@ -87,7 +87,10 @@ fun QuestionScreen(
                     onClick = {viewModel.checkAnswer(navController = navController, n = i)}) {
 
 
-                    Text(text = l[i])
+                    Text(
+                        text = l[i],
+                        fontSize = 20.sp
+                    )
                 }
             }
         }
@@ -111,7 +114,10 @@ fun QuestionScreen(
                     contentColor = Color.White  // Set the desired text color
                 ),
             ) {
-                Text(text = "Next")
+                Text(
+                    text = "Next",
+                    fontSize = 20.sp
+                )
             }
         }
 

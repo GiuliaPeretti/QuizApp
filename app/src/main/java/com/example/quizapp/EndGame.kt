@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,10 +44,10 @@ import com.example.quizapp.ui.theme.Theme
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
-
 fun EndGame(
     viewModel: QuizViewModel,
     context: Context,
+    onAction: (QuizAction) -> Unit,
     navController: NavHostController
 ){
 
@@ -82,23 +83,17 @@ fun EndGame(
         }
     }
 
-    Column (
-        modifier = Modifier
-            .padding(horizontal = 10.dp)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
+
         //chart
         Column(
             modifier = Modifier
-                .padding(horizontal = 10.dp)
-                .fillMaxWidth(),
+                .padding(bottom = 100.dp, start = 10.dp, end = 10.dp)
+                .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             LineChart(pointsData = viewModel.getPoints(context = context))
-//          LineChart(pointsData = listOf(Point(0f, 5f),Point(1f, 8f),Point(2f, 3f),Point(3f, 5f)))
+//            LineChart(pointsData = listOf(Point(0f, 5f),Point(1f, 8f),Point(2f, 3f),Point(3f, 5f)))
 
         }
 
@@ -106,20 +101,25 @@ fun EndGame(
         //two buttons
         Column (
             modifier = Modifier
-                .padding(vertical = 100.dp)
+                .padding(vertical = 120.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { onAction(QuizAction.Restart(navController = navController, context = context)) },
                 modifier = Modifier
                     .padding(5.dp)
                     .height(50.dp)
                     .width(200.dp)
-                    .align(Alignment.CenterHorizontally)
+                    .align(Alignment.CenterHorizontally),
+                colors = ButtonDefaults.buttonColors(containerColor = Theme().primary)
+
             ) {
-                Text(text = "Restart")
+                Text(
+                    text = "Restart",
+                    fontSize = 20.sp
+                    )
             }
             Button(
                 onClick = { /*TODO*/ },
@@ -127,20 +127,25 @@ fun EndGame(
                     .padding(5.dp)
                     .height(50.dp)
                     .width(200.dp)
-                    .align(Alignment.CenterHorizontally)
+                    .align(Alignment.CenterHorizontally),
+                colors = ButtonDefaults.buttonColors(containerColor = Theme().primary)
+
             ) {
-                Text(text = "Stats")
+                Text(
+                    text = "Stats",
+                    fontSize = 20.sp
+                )
             }
         }
-    }
+
 
 
 
     //navigationBar
     NavigationBar(navController = navController)
 
+}
 
-    }
 
 
 

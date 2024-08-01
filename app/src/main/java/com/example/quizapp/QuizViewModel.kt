@@ -25,6 +25,7 @@ import java.security.AccessController.getContext
 
 class QuizViewModel: ViewModel() {
 
+    //TODO: fai diventare tutti i metodi privati
     private val _state = MutableStateFlow(QuizState())
     val state: StateFlow<QuizState> = _state.asStateFlow()
 
@@ -32,6 +33,7 @@ class QuizViewModel: ViewModel() {
         when(action){
             is QuizAction.Selected -> startGame(topic = action.topic, context = action.context, navController = action.navController)
             is QuizAction.NewQuestion -> newQuestion(navController = action.navController)
+            is QuizAction.Restart -> restart(context = action.context, navController = action.navController)
         }
     }
 
@@ -55,11 +57,8 @@ class QuizViewModel: ViewModel() {
         navController.navigate("question")
     }
 
-    fun getString(str: String): String{
-        return when(str){
-            "Question" -> _state.value.currentQuestions[_state.value.questionCount].question
-            else -> "" //TODO: metti null, return type String? e poi gestisci l'eccezione
-        }
+    fun restart(context: Context,navController: NavHostController) {
+        startGame(topic = getCurrentTopic(), context = context, navController = navController)
     }
 
     fun startGame(topic: String, context: Context,navController: NavHostController) {
@@ -104,6 +103,10 @@ class QuizViewModel: ViewModel() {
     }
     fun getQuestionForGame(): Int{
         return (_state.value.questionForGame)
+    }
+
+    fun getCurrentTopic(): String{
+        return _state.value.currentQuestions[0].topic
     }
 
 

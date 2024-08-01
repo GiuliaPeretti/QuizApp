@@ -50,6 +50,7 @@ fun NavigationController(
             viewModel = viewModel,
             context = context,
             navController = navController,
+            onAction = viewModel::onAction
             ) }
     }
 }
