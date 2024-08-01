@@ -8,11 +8,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -33,6 +37,7 @@ import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
 import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
 import co.yml.charts.ui.linechart.model.ShadowUnderLine
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,58 +47,72 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.quizapp.ui.theme.Theme
 
 
-@Preview
-@Composable
 
-fun StatsScreen(){
+
+@Composable
+fun StatsScreen(
+    viewModel: QuizViewModel
+){
+    var topicSelected: String
     Column (
         modifier = Modifier
             .background(Theme().background)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
-        Demo_DropDownMenu()
-        LineChart(pointsData = listOf(
-            Point(0f, 5f),
-            Point(1f, 8f),
-            Point(2f, 3f),
-            Point(3f, 5f))
+        topicSelected = Demo_ExposedDropdownMenuBox(topics = viewModel.getTopics(context = LocalContext.current)[0])
+        LineChart(pointsData = viewModel.getPoints(topic = topicSelected, context = LocalContext.current)
         )
-
-
     }
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Demo_DropDownMenu() {
+fun Demo_ExposedDropdownMenuBox(topics: List<String>): String {
     val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) }
+    var selectedText by remember { mutableStateOf(topics[0]) }
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentSize(Alignment.TopEnd)
+            .padding(32.dp)
     ) {
-        IconButton(onClick = { expanded = !expanded }) {
-            Icon(
-                imageVector = Icons.Default.MoreVert,
-                contentDescription = "More"
-            )
-        }
-
-        DropdownMenu(
+        ExposedDropdownMenuBox(
+            modifier = Modifier
+                .fillMaxWidth(),
             expanded = expanded,
-            onDismissRequest = { expanded = false }
+            onExpandedChange = {
+                expanded = !expanded
+            }
         ) {
-            DropdownMenuItem(
-                text = { Text("Load") },
-                onClick = { Toast.makeText(context, "Load", Toast.LENGTH_SHORT).show() }
+            TextField(
+                value = selectedText,
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth()
             )
-            DropdownMenuItem(
-                text = { Text("Save") },
-                onClick = { Toast.makeText(context, "Save", Toast.LENGTH_SHORT).show() }
-            )
+
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                topics.forEach { item ->
+                    DropdownMenuItem(
+                        text = { Text(text = item) },
+                        onClick = {
+                            selectedText = item
+                            expanded = false
+                            Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
+            }
         }
     }
+    return(selectedText)
 }

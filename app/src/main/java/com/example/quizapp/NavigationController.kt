@@ -52,5 +52,12 @@ fun NavigationController(
             navController = navController,
             onAction = viewModel::onAction
             ) }
+        composable(
+            route="stats",
+            enterTransition = { fadeIn(animationSpec = spring(stiffness = Spring.StiffnessHigh)) },
+            exitTransition = { fadeOut(animationSpec = spring(stiffness = Spring.StiffnessHigh)) }
+        ) { StatsScreen(
+            viewModel = viewModel,
+        ) }
     }
 }

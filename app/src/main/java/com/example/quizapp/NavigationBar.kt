@@ -55,7 +55,7 @@ fun NavigationBar(
 
             }
             Button(
-                onClick = { /*TODO*/},
+                onClick = { navController.navigate("stats")},
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(1f),

@@ -147,8 +147,7 @@ class QuizViewModel: ViewModel() {
 
     }
 
-    fun getPoints(context: Context): List<Point> {
-        val topic = _state.value.currentQuestions[0].topic
+    fun getPoints(topic: String = _state.value.currentQuestions[0].topic, context: Context): List<Point> {
         val gamesString = readCsvFromAssets(context, "games.csv").toString()
         val gamesList = gamesString.split('\n')
         val pointList: MutableList<Point> = mutableListOf()
