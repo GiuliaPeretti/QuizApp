@@ -73,7 +73,7 @@ fun EndGame(
 
                 )
             Text(
-                text = "8/10",
+                text = viewModel.getCorrect().toString()+"/10",
                 fontSize = 40.sp,
                 modifier = Modifier
                     .padding(horizontal = 10.dp, vertical = 3.dp)
@@ -165,25 +165,32 @@ data class LineChartData(
 )
 
 @Composable
-fun LineChart(pointsData: List<Point>){
+fun LineChart(pointsData: MutableList<Point>){
     val xAxisData = AxisData
         .Builder()
         .axisStepSize(50.dp)
         .backgroundColor(Color.Transparent)
-        .steps(pointsData.size - 1)
+        .steps(pointsData.size)
         .labelData { i -> i.toString() }
         .labelAndAxisLinePadding(10.dp)
         .build()
 
     val yAxisData = AxisData.Builder()
-        .axisStepSize(100.dp)
-        .steps(pointsData.size - 1)
+        .axisStepSize(50.dp)
+        .steps(10)
         .backgroundColor(Color.Transparent)
         .labelAndAxisLinePadding(10.dp)
         .labelData { i ->
-            val yScale = 10 / 5
+            val yScale = 10 / pointsData.size
             (i * yScale).toString()
         }.build()
+
+
+    if(pointsData.isEmpty()){
+        pointsData.toMutableList()
+        pointsData.add(Point(0f,0f))
+    }
+    pointsData.toList()
 
     val lineChartData = LineChartData(
         linePlotData = LinePlotData(
@@ -208,7 +215,7 @@ fun LineChart(pointsData: List<Point>){
     LineChart(
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp),
+            .height(400.dp),
         lineChartData = lineChartData
     )
 }

@@ -58,6 +58,8 @@ fun NavigationController(
             exitTransition = { fadeOut(animationSpec = spring(stiffness = Spring.StiffnessHigh)) }
         ) { StatsScreen(
             viewModel = viewModel,
-        ) }
+            navController = navController,
+
+            ) }
     }
 }

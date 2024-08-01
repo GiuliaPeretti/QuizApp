@@ -147,7 +147,7 @@ class QuizViewModel: ViewModel() {
 
     }
 
-    fun getPoints(topic: String = _state.value.currentQuestions[0].topic, context: Context): List<Point> {
+    fun getPoints(topic: String = _state.value.currentQuestions[0].topic, context: Context): MutableList<Point> {
         val gamesString = readCsvFromAssets(context, "games.csv").toString()
         val gamesList = gamesString.split('\n')
         val pointList: MutableList<Point> = mutableListOf()
@@ -160,7 +160,7 @@ class QuizViewModel: ViewModel() {
                 count += 1
             }
         }
-        return pointList.toList()
+        return pointList
     }
 
 
@@ -207,6 +207,10 @@ class QuizViewModel: ViewModel() {
         ioException.printStackTrace()
         null
     }
+    }
+
+    fun getCorrect(): Int{
+        return _state.value.correctAnswers
     }
 
 

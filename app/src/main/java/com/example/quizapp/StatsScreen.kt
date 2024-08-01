@@ -44,6 +44,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavHostController
 import com.example.quizapp.ui.theme.Theme
 
 
@@ -51,11 +52,13 @@ import com.example.quizapp.ui.theme.Theme
 
 @Composable
 fun StatsScreen(
-    viewModel: QuizViewModel
+    viewModel: QuizViewModel,
+    navController: NavHostController
 ){
     var topicSelected: String
     Column (
         modifier = Modifier
+            .padding(bottom = 80.dp)
             .background(Theme().background)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center
@@ -64,6 +67,7 @@ fun StatsScreen(
         LineChart(pointsData = viewModel.getPoints(topic = topicSelected, context = LocalContext.current)
         )
     }
+    NavigationBar(navController = navController)
 }
 
 
