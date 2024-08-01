@@ -49,6 +49,7 @@ fun NavigationController(
         ) { EndGame(
             viewModel = viewModel,
             context = context,
+            navController = navController,
             ) }
     }
 }

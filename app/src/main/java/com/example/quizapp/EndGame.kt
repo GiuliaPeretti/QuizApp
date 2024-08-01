@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,6 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import co.yml.charts.axis.AxisData
 import co.yml.charts.common.model.AccessibilityConfig
 import co.yml.charts.common.model.Point
@@ -39,18 +42,20 @@ import co.yml.charts.ui.linechart.model.ShadowUnderLine
 import com.example.quizapp.ui.theme.Theme
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
-
 @Composable
 
 fun EndGame(
     viewModel: QuizViewModel,
-    context: Context
+    context: Context,
+    navController: NavHostController
 ){
+
+    //score square
     Column (
         modifier = Modifier
             .background(Theme().background)
             .fillMaxSize(),
-    ){
+    ) {
 
         Column(
             modifier = Modifier
@@ -75,33 +80,70 @@ fun EndGame(
 
                 )
         }
+    }
 
+    Column (
+        modifier = Modifier
+            .padding(horizontal = 10.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        //chart
         Column(
             modifier = Modifier
                 .padding(horizontal = 10.dp)
-                .fillMaxSize(),
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             LineChart(pointsData = viewModel.getPoints(context = context))
+//          LineChart(pointsData = listOf(Point(0f, 5f),Point(1f, 8f),Point(2f, 3f),Point(3f, 5f)))
+
         }
-        Column(
+
+
+        //two buttons
+        Column (
             modifier = Modifier
+                .padding(vertical = 100.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(onClick = { /*TODO*/ }) {
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = Modifier
+                    .padding(5.dp)
+                    .height(50.dp)
+                    .width(200.dp)
+                    .align(Alignment.CenterHorizontally)
+            ) {
                 Text(text = "Restart")
             }
-            Button(onClick = { /*TODO*/ }) {
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = Modifier
+                    .padding(5.dp)
+                    .height(50.dp)
+                    .width(200.dp)
+                    .align(Alignment.CenterHorizontally)
+            ) {
                 Text(text = "Stats")
             }
         }
     }
 
 
-}
+
+    //navigationBar
+    NavigationBar(navController = navController)
+
+
+    }
+
+
+
 
 data class LineChartData(
     val linePlotData: LinePlotData,
