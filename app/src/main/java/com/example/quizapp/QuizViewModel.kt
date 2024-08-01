@@ -32,10 +32,9 @@ class QuizViewModel: ViewModel() {
 
     fun onAction(action: QuizAction){
         when(action){
-            is QuizAction.StartGame -> startGame(context = action.context, navController = action.navController)
+            is QuizAction.StartGame -> startGame(context = action.context)
             is QuizAction.SelectTopic -> setTopic(topic = action.topic, description = action.description)
             is QuizAction.NewQuestion -> newQuestion(navController = action.navController)
-            is QuizAction.Restart -> restart(context = action.context, navController = action.navController)
         }
     }
 
@@ -96,7 +95,7 @@ class QuizViewModel: ViewModel() {
     }
 
 
-    fun getQuestions(context: Context): List<Question>? {
+    fun getQuestions(context: Context): List<Question> {
         val questionsString: String = readCsvFromAssets(context, "questions.csv").toString()
         //TODO: gestisci eccezione
         var list = questionsString.split('\n')
@@ -159,11 +158,8 @@ class QuizViewModel: ViewModel() {
         navController.navigate("question")
     }
 
-    fun restart(context: Context,navController: NavHostController) {
-        startGame(context = context, navController = navController)
-    }
 
-    fun startGame(context: Context,navController: NavHostController) {
+    fun startGame(context: Context) {
         val topic = getTopic()
         val questionsList=getQuestions(context = context)
         var currentQuestions: MutableList<Question> = mutableListOf()
@@ -186,7 +182,6 @@ class QuizViewModel: ViewModel() {
 
 
         //displayQuestion(navController = navController)
-        navController.navigate("question")
     }
 
 
@@ -234,6 +229,11 @@ class QuizViewModel: ViewModel() {
         ioException.printStackTrace()
         null
     }
+    }
+
+
+    fun getImage(topic: String){
+
     }
 
 

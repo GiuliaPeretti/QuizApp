@@ -107,7 +107,7 @@ fun EndGame(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-                onClick = { onAction(QuizAction.Restart(navController = navController, context = context)) },
+                onClick = { onAction(QuizAction.StartGame(context = context)) },
                 modifier = Modifier
                     .padding(5.dp)
                     .height(50.dp)
@@ -122,7 +122,7 @@ fun EndGame(
                     )
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate("stats") },
                 modifier = Modifier
                     .padding(5.dp)
                     .height(50.dp)

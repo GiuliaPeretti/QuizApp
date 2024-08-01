@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.quizapp.ui.theme.Theme
 import com.example.quizapp.ui.theme.ThemeColors
@@ -70,7 +71,8 @@ fun TopicScreen(
                 onClick = {
                     onAction(QuizAction.SelectTopic(topic = titles[i], description = descriptions[i]))
                     navController.navigate("topicSelected")
-                }
+                },
+                viewModel = viewModel
             )
         }
     }
@@ -84,7 +86,9 @@ fun TopicScreen(
 fun Topic(
     title: String,
     description: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    viewModel: QuizViewModel,
+    topic: String
 ){
     //TODO: add shadow
     val l = listOf("Topic0","Topic1","Topic2","Topic3")
@@ -103,6 +107,7 @@ fun Topic(
                 .height(100.dp)
         ) {
             Image(painter = painterResource(R.drawable.geography), contentDescription = null,
+//            Image(painter = viewModel.getImage(), contentDescription = null,
                 modifier = Modifier
                     .padding(5.dp)
                     .clip(RoundedCornerShape(15.dp))

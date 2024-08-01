@@ -32,7 +32,10 @@ fun HomeScreen(
                 .height(70.dp)
                 .fillMaxWidth(),
             onClick = {/* TODO: quest */ }) {
-            Text(text = "Start")
+            Text(
+                text = "Start",
+                fontSize = 20.sp
+                )
         }
         Button(
             modifier = Modifier
@@ -40,7 +43,10 @@ fun HomeScreen(
                 .height(70.dp)
                 .fillMaxWidth(),
             onClick = {/* TODO: quest */ }) {
-            Text(text = "Settings")
+            Text(
+                text = "Settings",
+                fontSize = 20.sp
+                )
         }
 
     }
