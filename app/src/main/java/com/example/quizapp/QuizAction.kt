@@ -1,10 +1,12 @@
 package com.example.quizapp
 
+import android.content.ClipDescription
 import android.content.Context
 import androidx.navigation.NavHostController
 
 sealed class QuizAction {
-    data class Selected(val topic: String, val context: Context, val navController: NavHostController): QuizAction()
+    data class StartGame(val context: Context, val navController: NavHostController): QuizAction()
     data class NewQuestion(val navController: NavHostController): QuizAction()
     data class Restart(val navController: NavHostController, val context: Context): QuizAction()
+    data class SelectTopic(val topic: String, val description: String): QuizAction()
 }

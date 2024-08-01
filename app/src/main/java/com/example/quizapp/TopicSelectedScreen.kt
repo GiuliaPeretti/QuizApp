@@ -1,5 +1,7 @@
 package com.example.quizapp
 
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,16 +13,20 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.quizapp.ui.theme.Theme
+import kotlin.reflect.KFunction1
+
 
 @Composable
 fun TopicSelectedScreen(
-    onAction: () -> Unit,
+    onAction: (QuizAction) -> Unit,
     viewModel: QuizViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    context: Context = LocalContext.current
 ) {
     Column(
         modifier = Modifier
@@ -33,8 +39,8 @@ fun TopicSelectedScreen(
             modifier = Modifier
                 .padding(start = 20.dp, end = 20.dp)
         ){
-            Button(
-                onClick = { onAction(QuizAction.Selected(context = context, navController = navController)) },
+                Button(
+                onClick = { onAction(QuizAction.StartGame(context = context, navController = navController)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally),
@@ -45,7 +51,7 @@ fun TopicSelectedScreen(
                 Text(text = "Start")
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate("topic") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally),
@@ -65,12 +71,12 @@ fun TopicSelectedScreen(
         verticalArrangement = Arrangement.Top
     ) {
         Text(
-            text = "Geography",
+            text = viewModel.getTopic(),
             fontSize = 50.sp,
             modifier = Modifier
         )
         Text(
-            text = "Question about gerography",
+            text = viewModel.getDescription(),
             fontSize = 25.sp,
             modifier = Modifier
                 .padding(top = 15.dp)

@@ -1,13 +1,15 @@
 package com.example.quizapp
 
+import android.content.ClipDescription
 import android.content.Context
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
 data class QuizState(
     var topicList: List<String> = listOf(),
-    var currentQuestions: List<Question> = listOf(),
-    var currentTopic: String = "",
+    var questionList: List<Question> = listOf(),
+    var topic: String = "",
+    var description: String = "",
     var questionCount: Int = 0,
     var questionForGame: Int = 10,
     var answerSelected: Int = -1,

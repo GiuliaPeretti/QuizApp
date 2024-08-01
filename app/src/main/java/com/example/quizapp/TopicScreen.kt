@@ -67,7 +67,10 @@ fun TopicScreen(
             Topic(
                 title = titles[i],
                 description = descriptions[i],
-                onClick = {onAction(QuizAction.SetTopic(titles[i]))}
+                onClick = {
+                    onAction(QuizAction.SelectTopic(topic = titles[i], description = descriptions[i]))
+                    navController.navigate("topicSelected")
+                }
             )
         }
     }

@@ -67,6 +67,7 @@ fun NavigationController(
             exitTransition = { fadeOut(animationSpec = spring(stiffness = Spring.StiffnessHigh)) }
         ) { TopicSelectedScreen(
             viewModel = viewModel,
+            onAction = viewModel::onAction,
             navController = navController,
             ) }
     }

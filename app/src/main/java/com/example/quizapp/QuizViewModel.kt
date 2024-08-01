@@ -26,16 +26,26 @@ import java.security.AccessController.getContext
 class QuizViewModel: ViewModel() {
 
     //TODO: fai diventare tutti i metodi privati
+    //TODO: togli tutti i navcontroller dalle funzioni (mettili nel onclick)
     private val _state = MutableStateFlow(QuizState())
     val state: StateFlow<QuizState> = _state.asStateFlow()
 
     fun onAction(action: QuizAction){
         when(action){
-            is QuizAction.StartGame
-            is QuizAction.Selected -> startGame(topic = action.topic, context = action.context, navController = action.navController)
+            is QuizAction.StartGame -> startGame(context = action.context, navController = action.navController)
+            is QuizAction.SelectTopic -> setTopic(topic = action.topic, description = action.description)
             is QuizAction.NewQuestion -> newQuestion(navController = action.navController)
             is QuizAction.Restart -> restart(context = action.context, navController = action.navController)
         }
+    }
+
+    private fun setTopic(topic: String, description: String) {
+        _state.value = _state.value.copy(
+            topic = topic
+        )
+        _state.value = _state.value.copy(
+            description = description
+        )
     }
 
     fun newQuestion(navController: NavHostController) {
@@ -59,10 +69,11 @@ class QuizViewModel: ViewModel() {
     }
 
     fun restart(context: Context,navController: NavHostController) {
-        startGame(topic = getCurrentTopic(), context = context, navController = navController)
+        startGame(context = context, navController = navController)
     }
 
-    fun startGame(topic: String, context: Context,navController: NavHostController) {
+    fun startGame(context: Context,navController: NavHostController) {
+        val topic = getTopic()
         val questionsList=getQuestions(context = context)
         var currentQuestions: MutableList<Question> = mutableListOf()
         for (i in questionsList){
@@ -73,7 +84,7 @@ class QuizViewModel: ViewModel() {
         //disordino cosi poi le prendo in ordine e due partite dello stesso topic sono comunque diverse
         currentQuestions.shuffle()
         _state.value = _state.value.copy(
-            currentQuestions = currentQuestions
+            questionList = questionsList
         )
         _state.value = _state.value.copy(
             questionCount = 0
@@ -87,16 +98,23 @@ class QuizViewModel: ViewModel() {
         navController.navigate("question")
     }
 
+    fun getTopic(): String {
+        return(_state.value.topic)
+    }
+
+    fun getDescription(): String{
+        return _state.value.description
+    }
 //    fun getQuestion(){
 //        //navController.navigate("question")
 //    }
 
     fun getQuesiton(): String {
-        return (_state.value.currentQuestions[_state.value.questionCount].question)
+        return (_state.value.questionList[_state.value.questionCount].question)
     }
 
     fun getAnswers(): List<String> {
-        return (_state.value.currentQuestions[_state.value.questionCount].answers)
+        return (_state.value.questionList[_state.value.questionCount].answers)
     }
 
     fun getQuestionCounter(): Int{
@@ -106,9 +124,6 @@ class QuizViewModel: ViewModel() {
         return (_state.value.questionForGame)
     }
 
-    fun getCurrentTopic(): String{
-        return _state.value.currentQuestions[0].topic
-    }
 
 
 //    fun getColorList(): List<Color> {
@@ -128,7 +143,7 @@ class QuizViewModel: ViewModel() {
     }
 
     fun getRightAnswer(): String {
-        return _state.value.currentQuestions[_state.value.questionCount].rightAnswer
+        return _state.value.questionList[_state.value.questionCount].rightAnswer
     }
 
     fun checkAnswer(navController: NavHostController, n: Int){
@@ -148,7 +163,7 @@ class QuizViewModel: ViewModel() {
 
     }
 
-    fun getPoints(topic: String = _state.value.currentQuestions[0].topic, context: Context): MutableList<Point> {
+    fun getPoints(topic: String = _state.value.questionList[0].topic, context: Context): MutableList<Point> {
         val gamesString = readCsvFromAssets(context, "games.csv").toString()
         val gamesList = gamesString.split('\n')
         val pointList: MutableList<Point> = mutableListOf()
