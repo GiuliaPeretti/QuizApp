@@ -1,5 +1,6 @@
 package com.example.quizapp
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import co.yml.charts.axis.AxisData
 import co.yml.charts.common.model.AccessibilityConfig
 import co.yml.charts.common.model.Point
@@ -34,12 +37,15 @@ import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
 import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
 import co.yml.charts.ui.linechart.model.ShadowUnderLine
 import com.example.quizapp.ui.theme.Theme
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 
-@Preview
 @Composable
 
-fun EndGame(){
+fun EndGame(
+    viewModel: QuizViewModel,
+    context: Context
+){
     Column (
         modifier = Modifier
             .background(Theme().background)
@@ -70,16 +76,30 @@ fun EndGame(){
                 )
         }
 
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 10.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            LineChart(pointsData = viewModel.getPoints(context = context))
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Restart")
+            }
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Stats")
+            }
+        }
     }
-    Column(
-        modifier = Modifier
-            .padding(horizontal = 10.dp)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        LineChart()
-    }
+
 
 }
 
@@ -98,10 +118,7 @@ data class LineChartData(
 )
 
 @Composable
-fun LineChart(){
-    val pointsData: List<Point> =
-        listOf(Point(0f, 5f), Point(1f, 9f), Point(2f, 7f), Point(3f, 6f), Point(4f, 1f),Point(5f, 5f), Point(6f, 9f), Point(7f, 3f), Point(8f, 6f), Point(9f, 5f))
-
+fun LineChart(pointsData: List<Point>){
     val xAxisData = AxisData
         .Builder()
         .axisStepSize(50.dp)
@@ -112,8 +129,8 @@ fun LineChart(){
         .build()
 
     val yAxisData = AxisData.Builder()
-        .axisStepSize(50.dp)
-        .steps(5)
+        .axisStepSize(100.dp)
+        .steps(pointsData.size - 1)
         .backgroundColor(Color.Transparent)
         .labelAndAxisLinePadding(10.dp)
         .labelData { i ->

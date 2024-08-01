@@ -82,9 +82,12 @@ fun QuestionScreen(
                         contentColor = Color.White  // Set the desired text color
                     ),
                     //onClick = {onAction(QuizAction.NewQuestion(navController = navController))}) {
+
+                    //onClick = {viewModel.checkAnswer(navController = navController, n = i)}) {
                     onClick = {viewModel.checkAnswer(navController = navController, n = i)}) {
 
-                Text(text = l[i])
+
+                    Text(text = l[i])
                 }
             }
         }

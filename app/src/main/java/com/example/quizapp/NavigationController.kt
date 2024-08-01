@@ -42,5 +42,13 @@ fun NavigationController(
             onAction = viewModel::onAction,
             viewModel = viewModel
             ) }
+        composable(
+            route="endGame",
+            enterTransition = { fadeIn(animationSpec = spring(stiffness = Spring.StiffnessHigh)) },
+            exitTransition = { fadeOut(animationSpec = spring(stiffness = Spring.StiffnessHigh)) }
+        ) { EndGame(
+            viewModel = viewModel,
+            context = context,
+            ) }
     }
 }

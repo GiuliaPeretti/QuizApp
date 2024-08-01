@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.navOptions
+import co.yml.charts.common.model.Point
 import com.example.quizapp.ui.theme.DarkColorScheme
 import com.example.quizapp.ui.theme.LightColorScheme
 import com.example.quizapp.ui.theme.Theme
@@ -34,7 +35,7 @@ class QuizViewModel: ViewModel() {
         }
     }
 
-    private fun newQuestion(navController: NavHostController) {
+    fun newQuestion(navController: NavHostController) {
         //TODO: fai che quando il conto è 10 fai altro
         if(getAnswerSelected()==-1){
             return
@@ -45,9 +46,12 @@ class QuizViewModel: ViewModel() {
         _state.value = _state.value.copy(
             answerSelected = -1
         )
-        if (_state.value.questionCount==10){
-            //TODO: metti schermo di fine partita
+
+        if (_state.value.questionCount==1){
+            navController.navigate("endGame")
+            return
         }
+
         navController.navigate("question")
     }
 
@@ -140,8 +144,25 @@ class QuizViewModel: ViewModel() {
 
     }
 
+    fun getPoints(context: Context): List<Point> {
+        val topic = _state.value.currentQuestions[0].topic
+        val gamesString = readCsvFromAssets(context, "games.csv").toString()
+        val gamesList = gamesString.split('\n')
+        val pointList: MutableList<Point> = mutableListOf()
+        var l: List<String> = listOf()
+        var count = 0
+        for (i in gamesList){
+            l = i.split(',')
+            if (l[0]==topic){
+                pointList.add(Point(x= count.toFloat(), y= l[1].toFloat()))
+                count += 1
+            }
+        }
+        return pointList.toList()
+    }
 
-    private fun getQuestions(context: Context): List<Question> {
+
+    fun getQuestions(context: Context): List<Question> {
         val jsonString = readCsvFromAssets(context, "questions.csv").toString()
         //TODO: gestisci eccezione
         var list = jsonString.split('\n')
