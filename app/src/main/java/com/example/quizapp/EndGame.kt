@@ -215,3 +215,4 @@ fun LineChart(pointsData: List<Point>){
     )
 }
 
+//TODO: quando finisce il gioco aggiorna i dati

@@ -75,6 +75,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -111,7 +112,7 @@ fun TopicScreen(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(state = rememberScrollState())
-            .padding(bottom = 70.dp)
+            .padding(bottom = 70.dp, top = 15.dp)
             .background(Theme().background)
     ){
         val titles=topicList[0]
@@ -135,6 +136,7 @@ fun TopicScreen(
 
 
 
+@SuppressLint("DiscouragedApi")
 @Composable
 fun Topic(
     title: String,
@@ -160,16 +162,39 @@ fun Topic(
                 .height(100.dp)
         ) {
 
-            val painter = rememberImagePainter(data = File("app/src/main/res/drawable/geography.jpg"))
+
+            val context = LocalContext.current
+            val resourceId = context.resources.getIdentifier(topic.lowercase(), "drawable",
+                context.packageName
+            )
+
+            val painter = if (resourceId != 0){
+                painterResource(id = resourceId)
+
+            } else {
+                painterResource(id = R.drawable.not_found)
+            }
 
             Image(
-
-                painter = painterResource(R.drawable.geography), contentDescription = null,
-//            Image(painter = viewModel.getImage(), contentDescription = null,
+                painter = painter,
+                contentDescription = null,
                 modifier = Modifier
-                    .padding(5.dp)
+                    .padding(10.dp)
                     .clip(RoundedCornerShape(15.dp))
-            )
+                )
+
+
+//
+//            Image(
+//
+//                painter = painter, contentDescription = null,
+////            Image(painter = viewModel.getImage(), contentDescription = null,
+//                modifier = Modifier
+//                    .padding(5.dp)
+//                    .clip(RoundedCornerShape(15.dp))
+//            )
+
+
 //            AsyncImage(
 //                model = ImageRequest.Builder(LocalContext.current)
 //                    .data(<file_path>)
