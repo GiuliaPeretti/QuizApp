@@ -2,6 +2,8 @@ package com.example.quizapp
 
 import android.adservices.topics.Topic
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.BlurMaskFilter
 import android.media.audiofx.AudioEffect.Descriptor
 import androidx.compose.foundation.Image
@@ -42,6 +44,56 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.quizapp.ui.theme.Theme
 import com.example.quizapp.ui.theme.ThemeColors
+import java.io.File
+
+
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.database.Cursor
+import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
+import android.util.Log
+import android.widget.TextClock
+import android.widget.Toast
+import android.widget.ToggleButton
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Image
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.*
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.requestPermissions
+import androidx.core.content.ContextCompat
+import java.text.SimpleDateFormat
+import java.util.*
+import coil.compose.rememberImagePainter
+
+
+
+
 
 
 @Composable
@@ -72,7 +124,8 @@ fun TopicScreen(
                     onAction(QuizAction.SelectTopic(topic = titles[i], description = descriptions[i]))
                     navController.navigate("topicSelected")
                 },
-                viewModel = viewModel
+                viewModel = viewModel,
+                topic = titles[i]
             )
         }
     }
@@ -106,12 +159,25 @@ fun Topic(
                 .background(Theme().secondary)
                 .height(100.dp)
         ) {
-            Image(painter = painterResource(R.drawable.geography), contentDescription = null,
+
+            val painter = rememberImagePainter(data = File("app/src/main/res/drawable/geography.jpg"))
+
+            Image(
+
+                painter = painterResource(R.drawable.geography), contentDescription = null,
 //            Image(painter = viewModel.getImage(), contentDescription = null,
                 modifier = Modifier
                     .padding(5.dp)
                     .clip(RoundedCornerShape(15.dp))
             )
+//            AsyncImage(
+//                model = ImageRequest.Builder(LocalContext.current)
+//                    .data(<file_path>)
+//                .build(),
+//            contentDescription = "icon",
+//            contentScale = ContentScale.Inside,
+//            modifier = Modifier.size(30.dp)
+//            )
             Column(
                 modifier = Modifier
                     .padding(5.dp)
@@ -122,6 +188,7 @@ fun Topic(
         }
     }
 }
+
 
 fun Modifier.shadow(
     color: Color = Color.Black,
