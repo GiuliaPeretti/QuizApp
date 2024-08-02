@@ -236,7 +236,9 @@ class QuizViewModel: ViewModel() {
 
     }
 
-
+    fun deleteStats() {
+        File("games.csv").writeText("")
+    }
 
 
 }

@@ -70,5 +70,13 @@ fun NavigationController(
             onAction = viewModel::onAction,
             navController = navController,
             ) }
+        composable(
+            route="settings",
+            enterTransition = { fadeIn(animationSpec = spring(stiffness = Spring.StiffnessHigh)) },
+            exitTransition = { fadeOut(animationSpec = spring(stiffness = Spring.StiffnessHigh)) }
+        ) { SettingsScreen(
+            viewModel = viewModel,
+            navController = navController,
+        ) }
     }
 }

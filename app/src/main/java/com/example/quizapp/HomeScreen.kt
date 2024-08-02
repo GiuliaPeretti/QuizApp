@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.quizapp.ui.theme.Theme
 
@@ -47,7 +48,7 @@ fun HomeScreen(
                 .padding(10.dp)
                 .height(70.dp)
                 .fillMaxWidth(),
-            onClick = {/* TODO: quest */ }) {
+            onClick = { navController.navigate("settings") }) {
             Text(
                 text = "Settings",
                 fontSize = 20.sp
