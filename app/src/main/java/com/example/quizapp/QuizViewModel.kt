@@ -133,6 +133,8 @@ class QuizViewModel: ViewModel() {
         _state.value = _state.value.copy(
             topic = topic
         )
+        //TODO: cancella
+        var temp = _state.value.topic
         _state.value = _state.value.copy(
             description = description
         )
@@ -150,7 +152,7 @@ class QuizViewModel: ViewModel() {
             answerSelected = -1
         )
 
-        if (_state.value.questionCount==1){
+        if (_state.value.questionCount==10){
             navController.navigate("endGame")
             return
         }
@@ -171,7 +173,7 @@ class QuizViewModel: ViewModel() {
         //disordino cosi poi le prendo in ordine e due partite dello stesso topic sono comunque diverse
         currentQuestions.shuffle()
         _state.value = _state.value.copy(
-            questionList = questionsList
+            questionList = currentQuestions
         )
         _state.value = _state.value.copy(
             questionCount = 0

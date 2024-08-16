@@ -58,6 +58,15 @@ dependencies {
 
     implementation(libs.coil.compose.v240)
 
+    implementation(libs.androidx.datastore.preferences.core)
+    implementation(libs.androidx.datastore.preferences)
+
+    // optional - RxJava2 support
+    implementation(libs.androidx.datastore.preferences.rxjava2)
+
+    // optional - RxJava3 support
+    implementation(libs.androidx.datastore.preferences.rxjava3)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -69,6 +78,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.datastore.core.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

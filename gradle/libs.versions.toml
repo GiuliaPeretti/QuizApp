@@ -3,6 +3,7 @@ accompanistSystemuicontroller = "0.32.0"
 agp = "8.5.0"
 coilCompose = "<version>"
 coilComposeVersion = "2.4.0"
+datastorePreferencesCore = "1.1.1"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -15,10 +16,15 @@ navigationCompose = "2.7.7"
 opencsv = "5.7.1"
 navigationRuntimeKtx = "2.7.7"
 ycharts = "2.1.0"
+datastoreCoreAndroid = "1.1.1"
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferencesCore" }
+androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastorePreferencesCore" }
+androidx-datastore-preferences-rxjava2 = { module = "androidx.datastore:datastore-preferences-rxjava2", version.ref = "datastorePreferencesCore" }
+androidx-datastore-preferences-rxjava3 = { module = "androidx.datastore:datastore-preferences-rxjava3", version.ref = "datastorePreferencesCore" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 coil-compose-v240 = { module = "io.coil-kt:coil-compose", version.ref = "coilComposeVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -38,6 +44,7 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 opencsv = { module = "com.opencsv:opencsv", version.ref = "opencsv" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 ycharts = { module = "co.yml:ycharts", version.ref = "ycharts" }
+androidx-datastore-core-android = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastoreCoreAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
