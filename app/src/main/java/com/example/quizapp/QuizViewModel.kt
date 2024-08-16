@@ -38,6 +38,13 @@ class QuizViewModel: ViewModel() {
         }
     }
 
+    fun onEvent(event: GamesDataEvent){
+        when(event){
+            is GamesDataEvent.AddGame -> return
+            is GamesDataEvent.deleteRecords -> return
+        }
+    }
+
 
     fun getAnswerSelected(): Int {
         return _state.value.answerSelected
