@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Upsert
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GamesDao {
@@ -14,6 +15,6 @@ interface GamesDao {
     @Delete
     suspend fun deleteGame(data: GamesData)
 
-    @Query("SELECT * FROM gamesdata ORDER BY date")
-    fun getGames(): List<GamesData>
+    @Query("SELECT * FROM GamesData ORDER BY id")
+    fun getGames(topic: String): Flow<List<GamesData>>
 }

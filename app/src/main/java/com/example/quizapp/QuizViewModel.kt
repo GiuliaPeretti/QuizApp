@@ -5,9 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import co.yml.charts.common.model.Point
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
@@ -44,8 +49,19 @@ class QuizViewModel(
                 }
             }
             is GamesDataEvent.DeleteRecords -> return
+            is GamesDataEvent.getGames -> {
+                viewModelScope.launch {
+                    _state.value = _state.value.copy(
+                        gamesRecords = dao.getGames(topic = _state.value.topic).flattenToList()
+                    )
+                }
+            }
         }
     }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    suspend fun <T> Flow<List<T>>.flattenToList() =
+        flatMapConcat { it.asFlow() }.toList()
 
 
     fun getAnswerSelected(): Int {
@@ -85,22 +101,35 @@ class QuizViewModel(
     }
 
     fun getPoints(topic: String = _state.value.topic, context: Context): List<Point> {
-        val gamesString = readCsvFromAssets(context, "games.csv").toString()
-        val gamesList = gamesString.split('\n')
+        onEvent(GamesDataEvent.getGames(topic))
+        var a = _state.value.gamesRecords
         val pointList: MutableList<Point> = mutableListOf()
-        var l: List<String> = listOf()
         var count = 0
-        for (i in gamesList){
-            l = i.split(',')
-            if (l[0]==topic){
-                pointList.add(Point(x= count.toFloat(), y= l[1].toFloat()))
-                count += 1
-            }
+        for (i in _state.value.gamesRecords){
+            pointList.add(Point(x= count.toFloat(), y= i.score.toFloat()))
+            count += 1
         }
         if(pointList.isEmpty()){
             pointList.add(Point(0f,0f))
         }
         return pointList.toList()
+
+//        val gamesString = readCsvFromAssets(context, "games.csv").toString()
+//        val gamesList = gamesString.split('\n')
+//        val pointList: MutableList<Point> = mutableListOf()
+//        var l: List<String> = listOf()
+//        var count = 0
+//        for (i in gamesList){
+//            l = i.split(',')
+//            if (l[0]==topic){
+//                pointList.add(Point(x= count.toFloat(), y= l[1].toFloat()))
+//                count += 1
+//            }
+//        }
+//        if(pointList.isEmpty()){
+//            pointList.add(Point(0f,0f))
+//        }
+//        return pointList.toList()
     }
 
 
