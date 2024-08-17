@@ -8,7 +8,7 @@ import java.util.Date
 data class GamesData(
     val topic: String,
     val score: Int,
-    val date: Date,
+    val date: String,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 )

@@ -13,9 +13,9 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun NavigationController(
     context: Context,
+    viewModel: QuizViewModel
 ){
     val navController = rememberNavController()
-    val viewModel = QuizViewModel()
     NavHost(navController = navController, startDestination = "home") {
         composable(
             route="home",

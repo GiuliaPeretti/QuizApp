@@ -1,6 +1,6 @@
 package com.example.quizapp
 
 sealed class GamesDataEvent {
-    data object AddGame: GamesDataEvent()
-    data object deleteRecords: GamesDataEvent()
+    data class AddGame(val topic: String, val score: Int, val date: String): GamesDataEvent()
+    data object DeleteRecords: GamesDataEvent()
 }

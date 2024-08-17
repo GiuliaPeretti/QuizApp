@@ -1,29 +1,22 @@
 package com.example.quizapp
 
 import android.content.Context
-import android.util.Log
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.ColorScheme
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
-import androidx.navigation.navOptions
 import co.yml.charts.common.model.Point
-import com.example.quizapp.ui.theme.DarkColorScheme
-import com.example.quizapp.ui.theme.LightColorScheme
-import com.example.quizapp.ui.theme.Theme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.json.JSONObject
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
-import java.io.StringReader
-import java.security.AccessController.getContext
+import java.time.LocalDate
 
 
-class QuizViewModel: ViewModel() {
+class QuizViewModel(
+    private val dao: GamesDao
+): ViewModel() {
 
     //TODO: fai diventare tutti i metodi privati
     //TODO: togli tutti i navcontroller dalle funzioni (mettili nel onclick)
@@ -40,8 +33,17 @@ class QuizViewModel: ViewModel() {
 
     fun onEvent(event: GamesDataEvent){
         when(event){
-            is GamesDataEvent.AddGame -> return
-            is GamesDataEvent.deleteRecords -> return
+            is GamesDataEvent.AddGame -> {
+                val data = GamesData(
+                    topic = event.topic,
+                    score = event.score,
+                    date = event.date
+                )
+                viewModelScope.launch {
+                    dao.insertGame(data)
+                }
+            }
+            is GamesDataEvent.DeleteRecords -> return
         }
     }
 
@@ -160,6 +162,7 @@ class QuizViewModel: ViewModel() {
         )
 
         if (_state.value.questionCount==10){
+            onEvent(GamesDataEvent.AddGame(topic = _state.value.topic, score = _state.value.correctAnswers, date = LocalDate.now().toString()))
             navController.navigate("endGame")
             return
         }
