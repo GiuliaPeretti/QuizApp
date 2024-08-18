@@ -15,6 +15,6 @@ interface GamesDao {
     @Delete
     suspend fun deleteGame(data: GamesData)
 
-    @Query("SELECT * FROM GamesData ORDER BY id")
-    fun getGames(topic: String): Flow<List<GamesData>>
+    @Query("SELECT * FROM GamesData WHERE topic=:topic")
+    fun getGames(topic: String):List<GamesData>
 }

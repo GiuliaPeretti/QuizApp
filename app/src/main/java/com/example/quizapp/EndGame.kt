@@ -92,7 +92,7 @@ fun EndGame(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            LineChart(pointsData = viewModel.getPoints(context = context))
+            LineChart(pointsData = viewModel.getPoints(t= null,context = context))
 //            LineChart(pointsData = listOf(Point(0f, 5f),Point(1f, 8f),Point(2f, 3f),Point(3f, 5f)))
 
         }

@@ -1,10 +1,12 @@
 package com.example.quizapp
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import co.yml.charts.common.model.Point
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,6 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
 import java.time.LocalDate
@@ -49,11 +52,17 @@ class QuizViewModel(
                 }
             }
             is GamesDataEvent.DeleteRecords -> return
-            is GamesDataEvent.getGames -> {
-                viewModelScope.launch {
-                    _state.value = _state.value.copy(
-                        gamesRecords = dao.getGames(topic = _state.value.topic).flattenToList()
-                    )
+            is GamesDataEvent.GetGames -> {
+
+                viewModelScope.launch(Dispatchers.IO) {
+                    val games = dao.getGames(topic = _state.value.topic)
+                    Log.d("deb",games.toString())
+                    Log.d("deb",games.size.toString())
+                    withContext(Dispatchers.Main) {
+                        _state.value = _state.value.copy(
+                            gamesRecords = games
+                        )
+                    }
                 }
             }
         }
@@ -100,8 +109,13 @@ class QuizViewModel(
         return _state.value.correctAnswers
     }
 
-    fun getPoints(topic: String = _state.value.topic, context: Context): List<Point> {
-        onEvent(GamesDataEvent.getGames(topic))
+    fun getPoints(t: String?, context: Context): List<Point> {
+        var topic=t
+        if (topic == null){
+            topic = _state.value.topic
+        }
+
+        onEvent(GamesDataEvent.GetGames(topic))
         var a = _state.value.gamesRecords
         val pointList: MutableList<Point> = mutableListOf()
         var count = 0
@@ -190,7 +204,7 @@ class QuizViewModel(
             answerSelected = -1
         )
 
-        if (_state.value.questionCount==10){
+        if (_state.value.questionCount==2){
             onEvent(GamesDataEvent.AddGame(topic = _state.value.topic, score = _state.value.correctAnswers, date = LocalDate.now().toString()))
             navController.navigate("endGame")
             return
