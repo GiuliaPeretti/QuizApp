@@ -1,4 +1,4 @@
-package com.example.quizapp
+package com.example.quizapp.gamesData
 
 sealed class GamesDataEvent {
     data class AddGame(val topic: String, val score: Int, val date: String): GamesDataEvent()

@@ -1,6 +1,5 @@
 package com.example.quizapp
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,7 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.room.Room
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-
+import com.example.quizapp.gamesData.GamesDatabase
 
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +19,7 @@ class MainActivity : ComponentActivity() {
         Room.databaseBuilder(
             applicationContext,
             GamesDatabase::class.java,
-            "contacts.db"
+            "games.db"
         ).build()
     }
 

@@ -1,14 +1,12 @@
-package com.example.quizapp
+package com.example.quizapp.gamesData
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Upsert
-import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface GamesDao {
+interface DatabaseDao {
     @Insert
     suspend fun insertGame(data: GamesData)
 

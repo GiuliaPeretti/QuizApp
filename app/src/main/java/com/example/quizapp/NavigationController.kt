@@ -9,6 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.quizapp.screens.EndGame
+import com.example.quizapp.screens.HomeScreen
+import com.example.quizapp.screens.QuestionScreen
+import com.example.quizapp.screens.SettingsScreen
+import com.example.quizapp.screens.StatsScreen
+import com.example.quizapp.screens.TopicScreen
+import com.example.quizapp.screens.TopicSelectedScreen
 
 @Composable
 fun NavigationController(

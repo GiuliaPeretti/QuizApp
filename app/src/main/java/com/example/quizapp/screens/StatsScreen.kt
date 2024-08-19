@@ -1,4 +1,4 @@
-package com.example.quizapp
+package com.example.quizapp.screens
 
 import android.util.Log
 import android.widget.Toast
@@ -24,6 +24,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import co.yml.charts.common.model.Point
+import com.example.quizapp.QuizViewModel
 import com.example.quizapp.ui.theme.Theme
 
 
@@ -35,6 +37,7 @@ fun StatsScreen(
     navController: NavHostController
 ){
     var topicSelected: String
+    var points: List<Point>
     Column (
         modifier = Modifier
             .padding(bottom = 80.dp)
@@ -44,8 +47,8 @@ fun StatsScreen(
     ) {
         topicSelected = Demo_ExposedDropdownMenuBox(topics = viewModel.getTopics(context = LocalContext.current)[0])
         Log.d("deb", "topicSelected $topicSelected")
-        LineChart(pointsData = viewModel.getPoints(t = topicSelected, context = LocalContext.current)
-        )
+        points = viewModel.getPoints(t = topicSelected, context = LocalContext.current)
+        LineChart(pointsData = points)
     }
     NavigationBar(navController = navController)
 }

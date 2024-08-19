@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import co.yml.charts.common.model.Point
+import com.example.quizapp.gamesData.DatabaseDao
+import com.example.quizapp.gamesData.GamesData
+import com.example.quizapp.gamesData.GamesDataEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +26,7 @@ import java.time.LocalDate
 
 
 class QuizViewModel(
-    private val dao: GamesDao
+    private val dao: DatabaseDao
 ): ViewModel() {
 
     //TODO: fai diventare tutti i metodi privati

@@ -1,4 +1,4 @@
-package com.example.quizapp
+package com.example.quizapp.gamesData
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
@@ -9,5 +9,5 @@ import androidx.room.RoomDatabase
 )
 
 abstract class GamesDatabase: RoomDatabase(){
-    abstract val dao: GamesDao
+    abstract val dao: DatabaseDao
 }

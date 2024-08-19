@@ -1,9 +1,6 @@
 package com.example.quizapp
 
-import android.content.ClipDescription
-import android.content.Context
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import com.example.quizapp.gamesData.GamesData
 
 data class QuizState(
     var topicList: List<String> = listOf(),

@@ -1,6 +1,5 @@
-package com.example.quizapp
+package com.example.quizapp.screens
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,12 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.quizapp.QuizAction
+import com.example.quizapp.QuizViewModel
 import com.example.quizapp.ui.theme.Theme
-import kotlin.reflect.KFunction1
 
 
 @Composable
