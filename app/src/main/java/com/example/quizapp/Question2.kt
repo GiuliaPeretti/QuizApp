@@ -1,6 +1,6 @@
 package com.example.quizapp
 
-class Question(topic: String, question: String, rightAnswer: String, ans: String) {
+class Question2(topic: String, question: String, rightAnswer: String, ans: String) {
     var topic: String = topic
         get() = field
         set(value) { field = value }

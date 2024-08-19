@@ -10,7 +10,9 @@ import androidx.compose.runtime.getValue
 import androidx.room.Room
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.quizapp.gamesData.GamesDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.quizapp.gamesData.AppDatabase
 
 
 class MainActivity : ComponentActivity() {
@@ -18,16 +20,19 @@ class MainActivity : ComponentActivity() {
     private val db by lazy {
         Room.databaseBuilder(
             applicationContext,
-            GamesDatabase::class.java,
-            "games.db"
+            AppDatabase::class.java,
+            "app.db"
         ).build()
     }
+
+
+
 
     private val viewModel by viewModels<QuizViewModel>(
         factoryProducer = {
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return QuizViewModel(db.dao) as T
+                    return QuizViewModel(db.DatabaseDao) as T
                 }
             }
         }

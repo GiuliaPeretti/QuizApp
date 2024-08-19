@@ -4,7 +4,7 @@ import com.example.quizapp.gamesData.GamesData
 
 data class QuizState(
     var topicList: List<String> = listOf(),
-    var questionList: List<Question> = listOf(),
+    var question2List: List<Question2> = listOf(),
     var topic: String = "",
     var description: String = "",
     var questionCount: Int = 0,

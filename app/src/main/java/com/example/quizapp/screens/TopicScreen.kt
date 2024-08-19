@@ -38,6 +38,7 @@ import com.example.quizapp.QuizAction
 import com.example.quizapp.QuizViewModel
 import com.example.quizapp.R
 
+//TODO: se stai facendo il quiz e vai su topic e poi vai sullo stesso topic il quiz riparte da dove era
 
 @Composable
 fun TopicScreen(

@@ -8,7 +8,9 @@ import androidx.navigation.NavHostController
 import co.yml.charts.common.model.Point
 import com.example.quizapp.gamesData.DatabaseDao
 import com.example.quizapp.gamesData.GamesData
-import com.example.quizapp.gamesData.GamesDataEvent
+import com.example.quizapp.gamesData.DatabaseEvent
+import com.example.quizapp.gamesData.Question
+import com.example.quizapp.gamesData.Topic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -42,9 +44,9 @@ class QuizViewModel(
         }
     }
 
-    fun onEvent(event: GamesDataEvent){
+    fun onEvent(event: DatabaseEvent){
         when(event){
-            is GamesDataEvent.AddGame -> {
+            is DatabaseEvent.AddGame -> {
                 val data = GamesData(
                     topic = event.topic,
                     score = event.score,
@@ -54,8 +56,27 @@ class QuizViewModel(
                     dao.insertGame(data)
                 }
             }
-            is GamesDataEvent.DeleteRecords -> return
-            is GamesDataEvent.GetGames -> {
+            is DatabaseEvent.InsertTopic -> {
+                val topic = Topic(
+                    topic = event.topic,
+                    description = event.description
+                )
+                viewModelScope.launch {
+                    dao.insertTopic(topic)
+                }
+            }
+            is DatabaseEvent.InsertQuestion -> {
+                val question = Question(
+                    topic = event.topic,
+                    question = event.question,
+                    answers = event.answers
+                )
+                viewModelScope.launch {
+                    dao.insertQuestion(question)
+                }
+            }
+            is DatabaseEvent.DeleteRecords -> return
+            is DatabaseEvent.GetGames -> {
 
                 viewModelScope.launch(Dispatchers.IO) {
                     val games = dao.getGames(topic = _state.value.topic)
@@ -81,7 +102,7 @@ class QuizViewModel(
     }
 
     fun getRightAnswer(): String {
-        return _state.value.questionList[_state.value.questionCount].rightAnswer
+        return _state.value.question2List[_state.value.questionCount].rightAnswer
     }
 
     fun getTopic(): String {
@@ -93,11 +114,11 @@ class QuizViewModel(
     }
 
     fun getQuesiton(): String {
-        return (_state.value.questionList[_state.value.questionCount].question)
+        return (_state.value.question2List[_state.value.questionCount].question)
     }
 
     fun getAnswers(): List<String> {
-        return (_state.value.questionList[_state.value.questionCount].answers)
+        return (_state.value.question2List[_state.value.questionCount].answers)
     }
 
     fun getQuestionCounter(): Int{
@@ -118,7 +139,7 @@ class QuizViewModel(
             topic = _state.value.topic
         }
 
-        onEvent(GamesDataEvent.GetGames(topic))
+        onEvent(DatabaseEvent.GetGames(topic))
         var a = _state.value.gamesRecords
         val pointList: MutableList<Point> = mutableListOf()
         var count = 0
@@ -150,15 +171,15 @@ class QuizViewModel(
     }
 
 
-    fun getQuestions(context: Context): List<Question> {
+    fun getQuestions(context: Context): List<Question2> {
         val questionsString: String = readCsvFromAssets(context, "questions.csv").toString()
         //TODO: gestisci eccezione
         var list = questionsString.split('\n')
-        val questionsList: MutableList<Question> = mutableListOf()
+        val questionsList: MutableList<Question2> = mutableListOf()
         var l: List<String> = listOf()
         for (i in list){
             l = i.split(',')
-            questionsList.add(Question(topic = l[0], question =  l[1], rightAnswer =  l[2], ans =  l[3]))
+            questionsList.add(Question2(topic = l[0], question =  l[1], rightAnswer =  l[2], ans =  l[3]))
         }
         return questionsList.toList()
     }
@@ -208,7 +229,7 @@ class QuizViewModel(
         )
 
         if (_state.value.questionCount==2){
-            onEvent(GamesDataEvent.AddGame(topic = _state.value.topic, score = _state.value.correctAnswers, date = LocalDate.now().toString()))
+            onEvent(DatabaseEvent.AddGame(topic = _state.value.topic, score = _state.value.correctAnswers, date = LocalDate.now().toString()))
             navController.navigate("endGame")
             return
         }
@@ -220,16 +241,16 @@ class QuizViewModel(
     fun startGame(context: Context) {
         val topic = getTopic()
         val questionsList=getQuestions(context = context)
-        var currentQuestions: MutableList<Question> = mutableListOf()
+        var currentQuestion2s: MutableList<Question2> = mutableListOf()
         for (i in questionsList){
             if(i.topic==topic){
-                currentQuestions.add(i)
+                currentQuestion2s.add(i)
             }
         }
         //disordino cosi poi le prendo in ordine e due partite dello stesso topic sono comunque diverse
-        currentQuestions.shuffle()
+        currentQuestion2s.shuffle()
         _state.value = _state.value.copy(
-            questionList = currentQuestions
+            question2List = currentQuestion2s
         )
         _state.value = _state.value.copy(
             questionCount = 0
