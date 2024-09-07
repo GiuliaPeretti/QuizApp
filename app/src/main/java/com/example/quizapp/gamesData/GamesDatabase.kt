@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [GamesData::class],
+    entities = [GamesData::class, Topic::class, Question::class],
     version = 1
 )
 

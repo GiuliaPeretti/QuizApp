@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 class TopicDatabase {
 
     @Database(
-        entities = [GamesData::class],
+        entities = [GamesData::class, Topic::class, Question::class],
         version = 1
     )
 

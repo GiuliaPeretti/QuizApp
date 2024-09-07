@@ -7,6 +7,5 @@ import androidx.room.PrimaryKey
 data class Topic (
      val description: String,
      @PrimaryKey(autoGenerate = false)
-     val topic: String,
-
+     val topic: String
 )
